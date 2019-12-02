@@ -3,7 +3,7 @@ import java.util.HashSet;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        /*HashSet<String> keyWords = new HashSet<>();
+        HashSet<String> keyWords = new HashSet<>();
         keyWords.add("begin");      keyWords.add("const");      keyWords.add("file");
         keyWords.add("end");        keyWords.add("div");        keyWords.add("for");
         keyWords.add("array");      keyWords.add("do");         keyWords.add("function");
@@ -15,14 +15,13 @@ public class Main {
         keyWords.add("record");     keyWords.add("then");       keyWords.add("var");
         keyWords.add("repeat");     keyWords.add("type");       keyWords.add("while");
         keyWords.add("set");        keyWords.add("until");      keyWords.add("with");
-        HashSet <Character> arithmeticOperator = new HashSet<Character>();
+        HashSet <Character> arithmeticOperator = new HashSet<>();
         arithmeticOperator.add('*');    arithmeticOperator.add('/');
         arithmeticOperator.add('-');    arithmeticOperator.add('+');
         HashSet <Character> symbols = new HashSet<>();
         symbols.add('>');   symbols.add('#');   symbols.add('$');
         symbols.add('<');   symbols.add('=');   symbols.add('&');   symbols.add('@');
         symbols.add('^');   symbols.add('_');   symbols.add('~');   symbols.add('%');
-        */
         try {
             File file = new File("D:\\file.txt");
             //создаем объект FileReader для объекта File
@@ -33,6 +32,9 @@ public class Main {
             String line = reader.readLine();
             while (line != null) {
                  Lexer lexer = new Lexer(line);
+                 lexer.getKeyWords(keyWords);
+                 lexer.getArithmeticOperator(arithmeticOperator);
+                 lexer.getSymbols(symbols);
                  while (true){
                     Token t = lexer.next();
                     if (t == null)
