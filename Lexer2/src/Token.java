@@ -3,8 +3,9 @@ import java.io.IOException;
 
 public class Token {
     int linepos, column;
-    String type,token;
-public Token(int linepos, int column, String type, String token){
+    String token;
+    TokenType type;
+public Token(int linepos, int column, TokenType type, String token){
     this.linepos=linepos;
     this.column = column;
     this.type=type;
@@ -23,7 +24,7 @@ public Token(int linepos, int column, String type, String token){
         return column;
     }
 
-    public String getType() {
+    public TokenType getType() {
         return type;
     }
 

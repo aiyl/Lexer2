@@ -2,6 +2,7 @@ import java.io.*;
 import java.util.HashSet;
 
 public class Main {
+    String string;
     public static void main(String[] args) throws Exception {
         HashSet<String> keyWords = new HashSet<>();
         keyWords.add("begin");      keyWords.add("const");      keyWords.add("file");       keyWords.add("break");
@@ -19,65 +20,57 @@ public class Main {
         HashSet <Character> arithmeticOperator = new HashSet<>();
         arithmeticOperator.add('*');    arithmeticOperator.add('/');    arithmeticOperator.add('^');
         arithmeticOperator.add('-');    arithmeticOperator.add('+');
+        arithmeticOperator.add('>');    arithmeticOperator.add('<');    arithmeticOperator.add('=');
         HashSet <Character> symbols = new HashSet<>();
         symbols.add('#');   symbols.add('$');
         symbols.add('&');   symbols.add('@');   symbols.add(':');
         symbols.add('_');   symbols.add('~');   symbols.add('%');
 
-        HashSet<Character> comparisonOperator = new HashSet<>();
-        comparisonOperator.add('>');    comparisonOperator.add('<'); comparisonOperator.add('=');
+
+
 
         HashSet <Character> separateOperator = new HashSet<>();
         separateOperator.add('{');  separateOperator.add(')');  separateOperator.add('.');
         separateOperator.add('}');  separateOperator.add(']');  separateOperator.add(';');
         separateOperator.add('(');  separateOperator.add('[');  separateOperator.add(',');
 
+        HashSet <String> doubleOperators = new HashSet<>();
+        doubleOperators.add("\"\"");    doubleOperators.add("<=");
+        doubleOperators.add(">=");      doubleOperators.add("<>");
+
         try {
-            File file = new File("D:\\tests\\file1.txt");
+            File file = new File("D:\\tests\\in1.txt");
             //создаем объект FileReader для объекта File
             FileReader fr = new FileReader(file);
-            FileWriter nFile = new FileWriter("D:\\tests\\out.txt");
+            FileWriter nFile = new FileWriter("D:\\tests\\out1.txt");
             nFile.write("line"+"\t");
             nFile.write("column"+"\t");
             nFile.write("token"+"\t");
             nFile.write("type"+"\n");
             BufferedReader reader = new BufferedReader(fr);
-            int linenum=-1;
-            String line = reader.readLine();
-            while (line != null) {
-                 linenum++;
-                 //System.out.println(linenum);
-                 Lexer lexer = new Lexer(line, linenum );
-                 lexer.getKeyWords(keyWords);
-                 lexer.getComparison(comparisonOperator);
-                 lexer.getSeparateOperator(separateOperator);
-                 lexer.getArithmeticOperator(arithmeticOperator);
-                 lexer.getSymbols(symbols);
-                 while (true){
-                    Token t = lexer.next();
-                    if (t == null)
-                        break;
-                     String token="";
-                     String column="";
-                     String type="";
-                     String  linepos="";
-                     token=t.getToken();
-                     column=String.valueOf(t.getColumn());
-                     linepos=String.valueOf(t.getLinepos());
-                     type=t.getType();
-                     nFile.write(linepos+"\t");
-                     nFile.write(column+"\t");
-                     nFile.write(token+"\t");
-                     nFile.write(type+"\n");
-                     //nFile.append("\n");
-                     t.print();
-                 }
-                    //System.out.println(line);
-                line = reader.readLine();
+            String str="";
+            int line;
+            //str=this.string;
+            while ((line = reader.read()) !=-1) {
+                str +=(String.valueOf((char)line));
 
-                    // считываем остальные строки в цикле
-                //line = reader.readLine();
             }
+            //System.out.println(linenum);
+            Lexer lexer = new Lexer(str);
+            lexer.getKeyWords(keyWords);
+            lexer.getSeparateOperator(separateOperator);
+            lexer.getArithmeticOperator(arithmeticOperator);
+            lexer.getSymbols(symbols);
+            lexer.getDoubleOperators(doubleOperators);
+            while (true){
+                Token t = lexer.next();
+                if (t == null)
+                    break;
+                nFile.write(String.format("%s\t%s\t%s\t%s\n", String.valueOf(t.getLinepos()),String.valueOf(t.getColumn()), t.getToken(), t.getType()));
+                t.print();
+            }
+                //line = reader.readLine();
+
 
         fr.close();
         nFile.close();

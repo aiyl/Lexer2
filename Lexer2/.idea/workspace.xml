@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ef39a83c-8147-445a-a285-a6d5f30b41a5" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/TokenType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Lexer2/Lexer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Lexer2/Lexer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Lexer2/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Lexer2/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Lexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lexer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Token.java" afterDir="false" />
@@ -18,6 +20,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -28,7 +31,7 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="D:/Klenin/Klenin" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
