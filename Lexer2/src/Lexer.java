@@ -1,7 +1,3 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.HashSet;
 
 public class Lexer {
@@ -45,7 +41,6 @@ public class Lexer {
         int length = str.length();
         if (pos >= length)
             return null;
-        int k;
         char ch = str.charAt(pos);
         while (pos < length) {
             if (ch=='\r') {
@@ -60,29 +55,44 @@ public class Lexer {
             else
                 break;
             pos++;
+            if (pos>=length){
+                return null;
+            }
             ch = str.charAt(pos);
         }
         if (pos >= length)
             return null;
         tokenstart = pos - linestart + 1;
-        if ((str.charAt(pos)=='/') && (str.charAt(pos+1)=='/')){
-            pos=pos+2;
-        }
         boolean chIsDouble=false;
+        boolean eFlag2 = false;
+        int eFlag=0;
+        int dorFlag=0;
         if (Character.isDigit(str.charAt(pos))) {
             String t="";
-            while (pos < length && (Character.isDigit(str.charAt(pos) )|| (str.charAt(pos)=='.'))) {
+            while (pos < length && (Character.isDigit(str.charAt(pos) )|| (str.charAt(pos)=='.') || (str.charAt(pos)=='e'))) {
                 if (str.charAt(pos)=='.'){
                     chIsDouble=true;
+                    dorFlag++;
+                }
+                if ((str.charAt(pos)=='e') &&(str.charAt(pos+1)=='+') || (str.charAt(pos+1)=='-')){
+                    eFlag++;
+                    eFlag2=true;
                 }
                 t += str.charAt(pos);
                 pos++;
             }
+
             if(chIsDouble){
-                return new Token(linenum, tokenstart,TokenType.DOUBLE, t);
+                if(((eFlag2)&&(eFlag<=1) && (dorFlag<=1))|| ((dorFlag<=1) && Character.isDigit(str.charAt(pos+1))))
+                    return new Token(linenum, tokenstart,TokenType.DOUBLE, t);
+                else
+                    return new Token(linenum, tokenstart,TokenType.ERROR, t);
             }
             else {
-                return new Token(linenum, tokenstart, TokenType.INTEGER, t);
+                if ((eFlag2)&&(eFlag<=1))
+                    return new Token(linenum, tokenstart, TokenType.INTEGER, t);
+                else
+                    return new Token(linenum, tokenstart, TokenType.ERROR, t);
             }
         }
         if (Character.isLetter(str.charAt(pos))) {
@@ -132,11 +142,11 @@ public class Lexer {
             }
             return new Token(linenum,tokenstart,TokenType.ARITHMETIC_OPERATOR, t);
         }
-        if (symbols.contains(ch)){
+        if (symbols.contains(str.charAt(pos))){
             pos++;
             return new Token(linenum,tokenstart,TokenType.SYMBOLS, String.valueOf(str.charAt(pos-1)));
         }
-        if (separateOperator.contains(ch)){
+        if (separateOperator.contains(str.charAt(pos))){
             pos++;
             return new Token(linenum,tokenstart,TokenType.SEPARATE_OPERATOR, String.valueOf(str.charAt(pos-1)));
         }

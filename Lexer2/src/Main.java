@@ -30,8 +30,8 @@ public class Main {
 
 
         HashSet <Character> separateOperator = new HashSet<>();
-        separateOperator.add('{');  separateOperator.add(')');  separateOperator.add('.');
-        separateOperator.add('}');  separateOperator.add(']');  separateOperator.add(';');
+        separateOperator.add(')');  separateOperator.add('.');
+        separateOperator.add(']');  separateOperator.add(';');
         separateOperator.add('(');  separateOperator.add('[');  separateOperator.add(',');
 
         HashSet <String> doubleOperators = new HashSet<>();
