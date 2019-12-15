@@ -37,6 +37,20 @@ public class Lexer {
     public int getPos() {
         return pos;
     }
+
+    private void checkComment(){
+        int length=str.length();
+        pos=pos+2;
+        while (str.charAt(pos)!='\n' && pos<length-1){
+            pos++;
+        }
+        //if(pos==length-1){
+          //  return null;
+        //}
+        str=str.substring(pos+1,length);
+        pos=0;
+    }
+
     Token next() {
         int length = str.length();
         if (pos >= length)
@@ -66,35 +80,92 @@ public class Lexer {
         boolean chIsDouble=false;
         boolean eFlag2 = false;
         int eFlag=0;
-        int dorFlag=0;
+        int dotFlag=0;
+
+        if ((str.charAt(pos)=='/') &&(str.charAt(pos+1)=='/')){
+            //checkComment();
+            pos=pos+2;
+            while (str.charAt(pos)!='\n' && pos<length-1){
+                pos++;
+            }
+            if(pos==length-1){
+                return null;
+            }
+            linenum++;
+            str=str.substring(pos+1,length);
+            pos=0;
+
+        }
+
+        /*if ((str.charAt(pos)=='/') &&(str.charAt(pos+1)=='/')){
+            //checkComment();
+            pos=pos+2;
+            while (str.charAt(pos)!='\n' && pos<length-1){
+                pos++;
+            }
+            linenum++;
+            if(pos==length-1){
+                return null;
+            }
+            str=str.substring(pos+1,length);
+            pos=0;
+
+        } */
+        if (str.charAt(pos)=='"') {
+            //checkComment();
+            String t="";
+
+            while (pos<length-1 && str.charAt(pos+1)!='"' ){
+                pos++;
+                t+=str.charAt(pos);
+            }
+            if(pos==length-1){
+                pos++;
+                return new Token(linenum, tokenstart,TokenType.ERROR, t);
+            }
+            pos=pos+2;
+            return  new Token(linenum, tokenstart,TokenType._STRING, t);
+
+        }
+
         if (Character.isDigit(str.charAt(pos))) {
             String t="";
             while (pos < length && (Character.isDigit(str.charAt(pos) )|| (str.charAt(pos)=='.') || (str.charAt(pos)=='e'))) {
                 if (str.charAt(pos)=='.'){
-                    chIsDouble=true;
-                    dorFlag++;
+                    dotFlag++;
                 }
-                if ((str.charAt(pos)=='e') &&(str.charAt(pos+1)=='+') || (str.charAt(pos+1)=='-')){
+                if ((str.charAt(pos)=='.')&& (Character.isDigit(str.charAt(pos-1))) ){
+                    if (pos< length-1 && Character.isDigit(str.charAt(pos+1)))
+                        chIsDouble=true;
+                }
+                if (((str.charAt(pos)=='e') || (str.charAt(pos)=='E'))  && (Character.isDigit(str.charAt(pos-1)))){
                     eFlag++;
-                    eFlag2=true;
+                    if (pos<length-2)
+                        if (((str.charAt(pos+1)=='+') || (str.charAt(pos+1)=='-')) && Character.isDigit(str.charAt(pos+2 ))) {
+                            eFlag2 = true;
+                            t += str.charAt(pos);
+                            pos++;
+                        }
                 }
                 t += str.charAt(pos);
                 pos++;
             }
 
-            if(chIsDouble){
-                if(((eFlag2)&&(eFlag<=1) && (dorFlag<=1))|| ((dorFlag<=1) && Character.isDigit(str.charAt(pos+1))))
+            if((chIsDouble)||(eFlag>0)){
+                if ((dotFlag==1 && !eFlag2) || (dotFlag==1 && eFlag2 && (eFlag==1)))
                     return new Token(linenum, tokenstart,TokenType.DOUBLE, t);
-                else
-                    return new Token(linenum, tokenstart,TokenType.ERROR, t);
+                else{
+                            return new Token(linenum, tokenstart,TokenType.ERROR, t);
+                    }
             }
             else {
-                if ((eFlag2)&&(eFlag<=1))
-                    return new Token(linenum, tokenstart, TokenType.INTEGER, t);
-                else
-                    return new Token(linenum, tokenstart, TokenType.ERROR, t);
+                    if (dotFlag==0 && eFlag==0)
+                        return new Token(linenum, tokenstart, TokenType.INTEGER, t);
+                    else
+                        return new Token(linenum, tokenstart, TokenType.ERROR, t);
             }
-        }
+
+    }
         if (Character.isLetter(str.charAt(pos))) {
             String t = "";
             while (pos < length && Character.isLetterOrDigit(str.charAt(pos))) {
@@ -131,22 +202,25 @@ public class Lexer {
 
         } */
         // a:= >= =  =++++b
-        if (arithmeticOperator.contains(str.charAt(pos))){
-            String t="";
-            while (
-                    pos < length && arithmeticOperator.contains(str.charAt(pos)) &&
-                    (t.length() == 0 || doubleOperators.contains(t + str.charAt(pos)))
-            ) {
-                t += str.charAt(pos);
-                pos++;
+        if (arithmeticOperator.contains(str.charAt(pos))) {
+            if((str.charAt(pos)=='/')&&(str.charAt(pos+1)=='/')){
+                next();
             }
-            return new Token(linenum,tokenstart,TokenType.ARITHMETIC_OPERATOR, t);
-        }
-        if (symbols.contains(str.charAt(pos))){
+                String t = "";
+                while (
+                        pos < length && arithmeticOperator.contains(str.charAt(pos)) &&
+                                (t.length() == 0 || doubleOperators.contains(t + str.charAt(pos)))
+                ) {
+                    t += str.charAt(pos);
+                    pos++;
+                }
+                return new Token(linenum, tokenstart, TokenType.ARITHMETIC_OPERATOR, t);
+            }
+        if (symbols.contains(str.charAt(pos)) && pos<length){
             pos++;
             return new Token(linenum,tokenstart,TokenType.SYMBOLS, String.valueOf(str.charAt(pos-1)));
         }
-        if (separateOperator.contains(str.charAt(pos))){
+        if (separateOperator.contains(str.charAt(pos)) && pos<length){
             pos++;
             return new Token(linenum,tokenstart,TokenType.SEPARATE_OPERATOR, String.valueOf(str.charAt(pos-1)));
         }
