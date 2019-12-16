@@ -27,7 +27,7 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="D:/Klenin/Klenin" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -86,28 +86,13 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Lexer.java</url>
-          <line>228</line>
-          <option name="timeStamp" value="159" />
+          <line>102</line>
+          <option name="timeStamp" value="176" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Lexer.java</url>
-          <line>208</line>
-          <option name="timeStamp" value="162" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Lexer.java</url>
-          <line>214</line>
-          <option name="timeStamp" value="163" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Lexer.java</url>
-          <line>126</line>
-          <option name="timeStamp" value="166" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Lexer.java</url>
-          <line>113</line>
-          <option name="timeStamp" value="167" />
+          <line>97</line>
+          <option name="timeStamp" value="178" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

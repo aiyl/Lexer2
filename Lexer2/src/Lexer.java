@@ -39,19 +39,22 @@ public class Lexer {
     }
 
     private void checkComment(){
-        int length=str.length();
-        pos=pos+2;
-        while (str.charAt(pos)!='\n' && pos<length-1){
+
+       /* pos=pos+2;
+        while (pos<length-1 && str.charAt(pos)!='\n'){
             pos++;
         }
-        //if(pos==length-1){
-          //  return null;
-        //}
+        if(pos==length-1){
+            return null;
+        }
+        linenum++;
         str=str.substring(pos+1,length);
-        pos=0;
+        length=str.length();
+        pos=0;*/
     }
 
     Token next() {
+        str=str.toLowerCase();
         int length = str.length();
         if (pos >= length)
             return null;
@@ -82,10 +85,33 @@ public class Lexer {
         int eFlag=0;
         int dotFlag=0;
 
-        if ((str.charAt(pos)=='/') &&(str.charAt(pos+1)=='/')){
+        if (str.charAt(pos)=='{'){
+            int start=pos;
+            pos++;
+            while (pos<length-1 && str.charAt(pos)!='}' ){
+                pos++;
+            }
+            if(pos>=length){
+                return new Token(linenum, tokenstart,TokenType.ERROR, "cant find close comment");
+            }
+            //String str1=str.substring(0,start);
+            String str2=str.substring(pos+1,length);
+            str= str2 ;
+            length=str.length();
+            pos=0;
+            if (pos+2<=length && (str.charAt(pos)=='\r')){
+              pos=pos+2;
+              if (pos==length){
+                  return null;
+              }
+            }
+
+        }
+
+        if ((str.charAt(pos)=='/') && (str.charAt(pos+1)=='/')){
             //checkComment();
             pos=pos+2;
-            while (str.charAt(pos)!='\n' && pos<length-1){
+            while (pos<length-1 && str.charAt(pos)!='\n' ){
                 pos++;
             }
             if(pos==length-1){
@@ -93,6 +119,7 @@ public class Lexer {
             }
             linenum++;
             str=str.substring(pos+1,length);
+            length=str.length();
             pos=0;
 
         }
@@ -205,6 +232,8 @@ public class Lexer {
         if (arithmeticOperator.contains(str.charAt(pos))) {
             if((str.charAt(pos)=='/')&&(str.charAt(pos+1)=='/')){
                 next();
+                pos++;
+                return null;
             }
                 String t = "";
                 while (
@@ -224,7 +253,6 @@ public class Lexer {
             pos++;
             return new Token(linenum,tokenstart,TokenType.SEPARATE_OPERATOR, String.valueOf(str.charAt(pos-1)));
         }
-
         pos++;
         return new Token(linenum, tokenstart,TokenType.ERROR, String.valueOf(str.charAt(pos-1)));
         //return null;
