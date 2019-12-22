@@ -3,7 +3,7 @@ import java.util.HashSet;
 
 public class Main {
 
-    private static void runLexer(String inPath, String outPath) {
+    private static void runLexer(String inPath, String outPath, String expectedPath) {
         HashSet<String> keyWords = new HashSet<>();
         keyWords.add("begin");
         keyWords.add("const");
@@ -64,7 +64,7 @@ public class Main {
         symbols.add('$');
         symbols.add('&');
         symbols.add('@');
-        symbols.add(':');
+        //symbols.add(':');
         symbols.add('_');
         symbols.add('~');
         symbols.add('%');
@@ -78,6 +78,7 @@ public class Main {
         separateOperator.add('(');
         separateOperator.add('[');
         separateOperator.add(',');
+        separateOperator.add(':');
 
         HashSet<String> doubleOperators = new HashSet<>();
         doubleOperators.add("\"\"");
@@ -87,17 +88,15 @@ public class Main {
 
         try {
             File file = new File(inPath);
-            //создаем объект FileReader для объекта File
             FileReader fr = new FileReader(file);
-            FileWriter nFile = new FileWriter(outPath);
-            nFile.write("line" + "\t");
-            nFile.write("column" + "\t");
-            nFile.write("token" + "\t");
-            nFile.write("type" + "\n");
+            FileWriter fw = new FileWriter(outPath);
+            fw.write("line" + "\t");
+            fw.write("column" + "\t");
+            fw.write("token" + "\t");
+            fw.write("type" + "\r"+"\n");
             BufferedReader reader = new BufferedReader(fr);
             String str = "";
             int line;
-            //str=this.string;
             while ((line = reader.read()) != -1) {
                 str += (String.valueOf((char) line));
 
@@ -113,32 +112,67 @@ public class Main {
                 Token t = lexer.next();
                 if (t == null)
                     break;
-                nFile.write(String.format("%s\t%s\t%s\t%s\n", String.valueOf(t.getLinepos()), String.valueOf(t.getColumn()), t.getToken(), t.getType()));
-                t.print();
+                fw.write(String.format("%s\t%s\t%s\t%s\r\n", String.valueOf(t.getLinepos()), String.valueOf(t.getColumn()), t.getToken(), t.getType()));
+               //t.print();
             }
-            //line = reader.readLine();
-
-
+            System.out.print("file number "+inPath + " ");
             fr.close();
-            nFile.close();
+            fw.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
+
+    public static boolean compare(String a, String b) throws Exception {
+        String a1=a;
+        String b2=b;
+        FileReader readerA = new FileReader(a1);
+        FileReader readerB = new FileReader(b2);
+        int byteA;
+        int byteB;
+        String str1="";
+        String str2="";
+        while ((byteA = readerA.read()) != -1) {
+            str1 += (String.valueOf((char) byteA));
+
+        }
+        readerA.close();
+        while ((byteB = readerB.read()) != -1) {
+            str2 += (String.valueOf((char) byteB));
+
+        }
+        readerB.close();
+        if (str1.equals(str2))
+                return true;
+        else
+            return false;
+
+    }
+
     public static void main(String[] args) throws Exception {
         String inPath="";
         String outPath="";
+        String expectedPath="";
         int i = 1;
-        while (i < 20) {
+        while (i <= 51) {
             inPath=args[0]+"in"+String.valueOf(i)+".txt";
-            outPath=args[0]+"in"+String.valueOf(i)+".txt";
-            runLexer(inPath,outPath);
+            outPath=args[0]+"out"+String.valueOf(i)+".txt";
+            expectedPath=args[0]+"expected"+String.valueOf(i)+".txt";
+            runLexer(inPath,outPath, expectedPath);
+            if(compare(expectedPath,outPath))
+                System.out.println(" success ");
+            else
+                System.out.println(" failed ");
             i++;
+
         }
-        System.out.println(args[0]);
+        //runLexer("D:\\\\tests\\\\in49.txt" ,"D:\\\\tests\\\\out49.txt", "D:\\\\tests\\\\expected49.txt");
     }
+
 
 }

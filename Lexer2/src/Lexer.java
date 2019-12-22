@@ -4,6 +4,7 @@ public class Lexer {
 //    boolean commentFlag;
     String str;
     int pos, linenum=1, tokenstart=0, linestart=0;
+    int openComment=0, closeComment=0;
 
     HashSet<String> keyWords = new HashSet<>();
 
@@ -50,6 +51,8 @@ public class Lexer {
             }
             else if (ch == ' ') {
             }
+            else if (ch == '\t') {
+            }
             else if (ch == '\n'){
                 linenum++;
                 linestart = pos + 1;
@@ -72,12 +75,15 @@ public class Lexer {
             return;
         }
         linenum++;
-        linestart = pos + 1;
+        linestart = pos ;
     }
+
+
 
     private Token checkMultilineComment() {
         if (!(pos<str.length() && str.charAt(pos)=='{'))
             return null;
+
         while (pos<str.length() && str.charAt(pos)!='}' ){
             if (str.charAt(pos)=='\r')
                 linestart = pos + 1;
@@ -87,6 +93,7 @@ public class Lexer {
             }
             pos++;
         }
+
         if(pos >= str.length())
             return new Token(linenum, tokenstart,TokenType.ERROR, "cant find close comment");
         pos++;
@@ -116,28 +123,36 @@ public class Lexer {
         int eFlag=0;
         int dotFlag=0;
         if (str.charAt(pos)=='"') {
-            //checkComment();
             String t="";
 
-            while (isPeek('"' )){
+            while (!isPeek('"' )){
                 pos++;
+                if(pos >= str.length())
+                    return new Token(linenum, tokenstart,TokenType.ERROR, "cant find close string");
                 t+=str.charAt(pos);
             }
-            if(pos==length-1){
+            /*if(pos==length-1){
                 pos++;
                 return new Token(linenum, tokenstart,TokenType.ERROR, t);
-            }
+            }*/
             pos=pos+2;
             return  new Token(linenum, tokenstart,TokenType._STRING, t);
 
+        }
+        if ((str.charAt(pos)=='.')&&isPeek('.')) {
+            pos=pos+2;
+            return new Token(linenum,pos-1,TokenType.SEPARATE_OPERATOR, "..");
         }
 
         if (Character.isDigit(str.charAt(pos))) {
             String t="";
             while (pos < length && (Character.isDigit(str.charAt(pos) )|| (str.charAt(pos)=='.') || (str.charAt(pos)=='e'))) {
                 if (str.charAt(pos)=='.'){
+                    if (isPeek('.'))
+                        break;
                     dotFlag++;
                 }
+
                 if ((str.charAt(pos)=='.')&& (Character.isDigit(str.charAt(pos-1))) ){
                     if (pos< length-1 && Character.isDigit(str.charAt(pos+1)))
                         chIsDouble=true;
@@ -151,15 +166,16 @@ public class Lexer {
                             pos++;
                         }
                 }
+
                 t += str.charAt(pos);
                 pos++;
             }
 
             if((chIsDouble)||(eFlag>0)){
-                if ((dotFlag==1 && !eFlag2) || (dotFlag==1 && eFlag2 && (eFlag==1)))
+                if ((dotFlag==1 && !eFlag2) || ((dotFlag==1||dotFlag==0) && eFlag2 && (eFlag==1)))
                     return new Token(linenum, tokenstart,TokenType.DOUBLE, t);
                 else{
-                            return new Token(linenum, tokenstart,TokenType.ERROR, t);
+                    return new Token(linenum, tokenstart,TokenType.ERROR, t);
                     }
             }
             else {
@@ -186,29 +202,10 @@ public class Lexer {
             return new Token(linenum,pos-1,TokenType.ASSIGNMENT_OPERATOR, ":=");
         }
 
-        /*if((str.charAt(pos)=='/') &&(str.charAt(pos+1) =='*')){
-            int i=pos;
-            pos=pos+2;
-            String closeComment = "";
-            while (closeComment!=""){
-                closeComment+=str.charAt(pos);
-                if(pos+1>=length){
-                    return null;}
-                closeComment+=str.charAt(pos+1);
-                if(closeComment.equals("")){
-                   // commentFlag=true;
-                    pos=pos+2;
-                    //return new Token(linenum,i,"comment", "");
-                }
-                closeComment="";
-                pos++;
-            }
 
-        } */
-        // a:= >= =  =++++b
         if (arithmeticOperator.contains(str.charAt(pos))) {
-            if((str.charAt(pos)=='/')&&(str.charAt(pos+1)=='/')){
-                next();
+            if( isPeek('/')&&(str.charAt(pos)=='/')){
+//                next();
                 pos++;
                 return null;
             }
@@ -231,6 +228,7 @@ public class Lexer {
             return new Token(linenum,tokenstart,TokenType.SEPARATE_OPERATOR, String.valueOf(str.charAt(pos-1)));
         }
         pos++;
+
         return new Token(linenum, tokenstart,TokenType.ERROR, String.valueOf(str.charAt(pos-1)));
         //return null;
     }

@@ -34,6 +34,7 @@ public Token(int linepos, int column, TokenType type, String token){
     System.out.print(token+" ");
     System.out.println(type+" ");
 
+
 }
 
 }
