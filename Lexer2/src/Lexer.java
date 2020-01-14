@@ -43,6 +43,11 @@ public class Lexer {
         return pos < str.length() - 1 && str.charAt(pos + 1) == ch;
     }
 
+    private void nSkip (){
+         linenum++;
+         linestart = pos + 1;
+    }
+
     private void skipSpaces() {
         while (pos < str.length()) {
             char ch = str.charAt(pos);
@@ -53,10 +58,8 @@ public class Lexer {
             }
             else if (ch == '\t') {
             }
-            else if (ch == '\n'){
-                linenum++;
-                linestart = pos + 1;
-            }
+            else if (ch == '\n')
+                nSkip();
             else
                 break;
             pos++;
@@ -85,12 +88,11 @@ public class Lexer {
             return null;
 
         while (pos<str.length() && str.charAt(pos)!='}' ){
-            if (str.charAt(pos)=='\r')
-                linestart = pos + 1;
-            else if (str.charAt(pos) == '\n'){
-                linenum++;
-                linestart = pos + 1;
-            }
+                if (str.charAt(pos)=='\r')
+                    linestart = pos + 1;
+                else if (str.charAt(pos) == '\n'){
+                    nSkip();
+                }
             pos++;
         }
 
@@ -173,14 +175,14 @@ public class Lexer {
 
             if((chIsDouble)||(eFlag>0)){
                 if ((dotFlag==1 && !eFlag2) || ((dotFlag==1||dotFlag==0) && eFlag2 && (eFlag==1)))
-                    return new Token(linenum, tokenstart,TokenType.DOUBLE, t);
+                    return new Token(linenum, tokenstart,TokenType.DOUBLE, Double.valueOf(t));
                 else{
                     return new Token(linenum, tokenstart,TokenType.ERROR, t);
                     }
             }
             else {
                     if (dotFlag==0 && eFlag==0)
-                        return new Token(linenum, tokenstart, TokenType.INTEGER, t);
+                        return new Token(linenum, tokenstart, TokenType.INTEGER, Integer.valueOf(t));
                     else
                         return new Token(linenum, tokenstart, TokenType.ERROR, t);
             }

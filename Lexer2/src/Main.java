@@ -103,6 +103,7 @@ public class Main {
             }
             //System.out.println(linenum);
             Lexer lexer = new Lexer(str);
+
             lexer.getKeyWords(keyWords);
             lexer.getSeparateOperator(separateOperator);
             lexer.getArithmeticOperator(arithmeticOperator);
@@ -110,6 +111,8 @@ public class Main {
             lexer.getDoubleOperators(doubleOperators);
             while (true) {
                 Token t = lexer.next();
+                Parser parse = new Parser(t);
+                //Tokens tokens = new Tokens(t);
                 if (t == null)
                     break;
                 fw.write(String.format("%s\t%s\t%s\t%s\r\n", String.valueOf(t.getLinepos()), String.valueOf(t.getColumn()), t.getToken(), t.getType()));
