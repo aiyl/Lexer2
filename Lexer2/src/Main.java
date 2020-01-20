@@ -1,9 +1,11 @@
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Main {
 
     private static void runLexer(String inPath, String outPath, String expectedPath) {
+        ArrayList <Token> arrayTokens= new ArrayList();
         HashSet<String> keyWords = new HashSet<>();
         keyWords.add("begin");
         keyWords.add("const");
@@ -111,8 +113,9 @@ public class Main {
             lexer.getDoubleOperators(doubleOperators);
             while (true) {
                 Token t = lexer.next();
-                Parser parse = new Parser(t);
-                //Tokens tokens = new Tokens(t);
+                arrayTokens.add(t);
+              //  Parser parser = new Parser(t);
+              //  parser.getToken();
                 if (t == null)
                     break;
                 fw.write(String.format("%s\t%s\t%s\t%s\r\n", String.valueOf(t.getLinepos()), String.valueOf(t.getColumn()), t.getToken(), t.getType()));
@@ -121,6 +124,13 @@ public class Main {
             System.out.print("file number "+inPath + " ");
             fr.close();
             fw.close();
+            Parser parser = new Parser(arrayTokens);
+
+
+
+
+            //parser.getToken();
+            //parser.print();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -162,7 +172,7 @@ public class Main {
         String outPath="";
         String expectedPath="";
         int i = 1;
-        while (i <= 51) {
+        /*while (i <= 51) {
             inPath=args[0]+"in"+String.valueOf(i)+".txt";
             outPath=args[0]+"out"+String.valueOf(i)+".txt";
             expectedPath=args[0]+"expected"+String.valueOf(i)+".txt";
@@ -173,8 +183,8 @@ public class Main {
                 System.out.println(" failed ");
             i++;
 
-        }
-        //runLexer("D:\\\\tests\\\\in49.txt" ,"D:\\\\tests\\\\out49.txt", "D:\\\\tests\\\\expected49.txt");
+        }*/
+        runLexer("D:\\\\tests\\\\in12.txt" ,"D:\\\\tests\\\\out12.txt", "D:\\\\tests\\\\expected12.txt");
     }
 
 
