@@ -111,20 +111,31 @@ public class Main {
             lexer.getArithmeticOperator(arithmeticOperator);
             lexer.getSymbols(symbols);
             lexer.getDoubleOperators(doubleOperators);
-            while (true) {
+            /*while (true) {
                 Token t = lexer.next();
                 arrayTokens.add(t);
               //  Parser parser = new Parser(t);
               //  parser.getToken();
-                if (t == null)
+                if (t.type==TokenType.EOF)
                     break;
                 fw.write(String.format("%s\t%s\t%s\t%s\r\n", String.valueOf(t.getLinepos()), String.valueOf(t.getColumn()), t.getToken(), t.getType()));
                //t.print();
             }
             System.out.print("file number "+inPath + " ");
+             */
             fr.close();
             fw.close();
-            Parser parser = new Parser(arrayTokens);
+            Parser parser = new Parser(lexer);
+            System.out.println(parser.ParseExpression());
+            //Parser parser = new Parser(arrayTokens);
+           // Parser pm = new Parser(arrayTokens);
+          //  System.out.println( "PlusMinus: " + pm.Parse(arrayTokens) );
+          /*  String f = "102+6";
+            try{
+                System.out.println( "PlusMinus: " + pm.Parse(f) );
+            }catch(Exception e){
+                System.err.println( "Error while parsing '"+f+"' with message: " + e.getMessage() );
+            }*/
 
 
 

@@ -1,62 +1,61 @@
 import java.util.ArrayList;
 
 public class Parser {
-    int i=0;
-    Token token;
-    String curToken;
-    TokenType curTokenType;
-    ArrayList<Token> arrayList;
-    public Parser(ArrayList tokensArray){
-        this.arrayList=tokensArray;
-        System.out.println("PlusMinus" + Parse(String.valueOf(arrayList.get(0).token)));
-        //this.token=token;
-    }
-    String getToken(){
-        token=arrayList.get(i);
-        curToken=String.valueOf(token.token);
-        curTokenType=token.type;
-        return curToken;
+    Lexer lexer;
 
+    public Parser(Lexer lexer) {
+        this.lexer=lexer;
     }
-    public double Parse(String curToken){
-        Result result = PlusMinus(curToken);
-        if(arrayList==null)
-            System.out.println("Error"+curToken);
-        return result.acc;
-    }
-    private Result PlusMinus(String curToken){
-        Result current=Num(curToken);
-        double acc = current.acc;
+    Syntax.Node ParseExpression() throws Exception {
+        Syntax.Node left = ParseTerm();
         while (true){
-            if((curToken!="+")||(curToken!="-"))
+            Token t= lexer.next();
+            if(t.token.equals("-")||t.token.equals("+")) {
+                Syntax.Node right = ParseTerm();
+                left=new Syntax.NodeBinaryOP(String.valueOf(t.token), left,right);
+            }
+            else
+            {
+                lexer.putBack(t);
                 break;
-            String sign = curToken;
-            i++;
-          //  getToken();
-            String nextToken=getToken();
-            acc = current.acc;
-            current=Num(nextToken);
-            if(sign=="+"){
-                acc+=current.acc;
             }
-            else{
-                acc-=acc;
-            }
-            current.acc=acc;
         }
-        return new Result(current.acc,curToken);
+        return left;
     }
-    private Result Num(String curToken){
-        if ((curTokenType!=TokenType.DOUBLE)||(curTokenType!=TokenType.INTEGER)) {
-            System.out.println("Can't find digit");
-            //return null;
+    Syntax.Node ParseTerm() throws Exception{
+        Syntax.Node left = ParseFactor();
+        while (true){
+            Token t= lexer.next();
+            if(t.token.equals("*")||t.token.equals("/")) {
+                Syntax.Node right = ParseFactor();
+                left=new Syntax.NodeBinaryOP(String.valueOf(t.token), left,right);
+            }
+            else
+            {
+                lexer.putBack(t);
+                break;
+            }
         }
-        Double value = Double.valueOf(curToken);
-        String restPart = curToken;
-        return new Result(value, curToken);
+        return left;
     }
 
+    Syntax.Node ParseFactor() throws Exception{
+        Token t= lexer.next();
+        if(t.type==TokenType.INTEGER){
+            return new Syntax.NodeInteger((int)t.token);
+        }
+        if(t.type==TokenType.IDENTIFIER){
+            return new Syntax.NodeVar((String)t.token);
+        }
+        if(t.token.equals("(")){
+            Syntax.Node expression =  ParseExpression();
+            if(!lexer.next().token.equals(")")){
+                throw new Exception("missing closing )");
+            }
+            return expression;
+        }
+        throw new Exception("unknown token");
+    }
 
-    //Tokens tokens= new Tokens(t);
 
 }

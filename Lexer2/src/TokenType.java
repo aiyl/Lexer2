@@ -9,4 +9,5 @@ public enum TokenType {
     INTEGER,
     DOUBLE,
     ASSIGNMENT_OPERATOR,
+    EOF,
 }

@@ -5,6 +5,7 @@ public class Lexer {
     String str;
     int pos, linenum=1, tokenstart=0, linestart=0;
     int openComment=0, closeComment=0;
+    Token buf;
 
     HashSet<String> keyWords = new HashSet<>();
 
@@ -101,8 +102,19 @@ public class Lexer {
         pos++;
         return null;
     }
-
+    public void putBack(Token t) throws Exception  {
+        if(buf!=null){
+            throw new Exception("Bad pull back");
+        }
+        buf=t;
+    }
     Token next() {
+        if(buf!=null){
+            var t=buf;
+            buf=null;
+            return t;
+        }
+
         str=str.toLowerCase();
         int length = str.length();
 
@@ -114,7 +126,7 @@ public class Lexer {
                 return t;
             checkLineComment();
             if (pos >= length)
-                return null;
+                return new Token(linenum, tokenstart,TokenType.EOF, "");
             if (pos == oldPos)
                 break;
         }
@@ -206,11 +218,6 @@ public class Lexer {
 
 
         if (arithmeticOperator.contains(str.charAt(pos))) {
-            if( isPeek('/')&&(str.charAt(pos)=='/')){
-//                next();
-                pos++;
-                return null;
-            }
                 String t = "";
                 while (
                         pos < length && arithmeticOperator.contains(str.charAt(pos)) &&
@@ -232,7 +239,6 @@ public class Lexer {
         pos++;
 
         return new Token(linenum, tokenstart,TokenType.ERROR, String.valueOf(str.charAt(pos-1)));
-        //return null;
     }
 }
 
