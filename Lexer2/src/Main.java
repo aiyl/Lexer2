@@ -1,6 +1,6 @@
 import java.io.*;
 public class Main {
-    private static void runLexer(String inPath, String outPath, String expectedPath) {
+    private static void runLexer(String inPath, String outPath, String expectedPath, boolean testType) {
         try {
             File file = new File(inPath);
             FileReader fr = new FileReader(file);
@@ -17,22 +17,23 @@ public class Main {
 
             }
             Lexer lexer = new Lexer(str);
-            /*while (true) {
-                Token t = lexer.next();
-                arrayTokens.add(t);
-              //  Parser parser = new Parser(t);
-              //  parser.getToken();
-                if (t.type==TokenType.EOF)
-                    break;
-                fw.write(String.format("%s\t%s\t%s\t%s\r\n", String.valueOf(t.getLinepos()), String.valueOf(t.getColumn()), t.getToken(), t.getType()));
-               //t.print();
+            if (!testType){
+                while (true) {
+                    Token t = lexer.next();
+                    if (t.type==TokenType.EOF)
+                        break;
+                    fw.write(String.format("%s\t%s\t%s\t%s\r\n", String.valueOf(t.getLinepos()), String.valueOf(t.getColumn()), t.getToken(), t.getType()));
+                   //t.print();
+                }
+                System.out.print("file number "+inPath + " ");
+
+                fr.close();
+                fw.close();
             }
-            System.out.print("file number "+inPath + " ");
-             */
-            fr.close();
-            fw.close();
+            if(testType){
             Parser parser = new Parser(lexer);
             parser.ParseExpression().print(1);
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -66,28 +67,33 @@ public class Main {
                 return true;
         else
             return false;
-
     }
 
     public static void main(String[] args) throws Exception {
         String inPath="";
         String outPath="";
         String expectedPath="";
+        boolean testType=false;
         int i = 1;
-        /*while (i <= 51) {
-            inPath=args[0]+"in"+String.valueOf(i)+".txt";
-            outPath=args[0]+"out"+String.valueOf(i)+".txt";
-            expectedPath=args[0]+"expected"+String.valueOf(i)+".txt";
-            runLexer(inPath,outPath, expectedPath);
-            if(compare(expectedPath,outPath))
+        String path="";
+        if (args[1].contains("L"))
+            path=args[0]+"\\\\LexerTests\\\\";
+        if (args[1].contains("P")){
+            path=args[0]+"\\\\ParseTests\\\\";
+            testType=true;
+        }
+        while (i <= 51) {
+            inPath=path+"in"+String.valueOf(i)+".txt";
+            outPath=path+"out"+String.valueOf(i)+".txt";
+            expectedPath=path+"expected"+String.valueOf(i)+".txt";
+            runLexer(inPath,outPath, expectedPath, testType);
+           /* if(compare(expectedPath,outPath))
                 System.out.println(" success ");
             else
-                System.out.println(" failed ");
+                System.out.println(" failed "); NOT ALWAYS*/
             i++;
 
-        }*/
-        runLexer("D:\\\\tests\\\\in53.txt" ,"D:\\\\tests\\\\out53.txt", "D:\\\\tests\\\\expected53.txt");
+        }
+       // runLexer("D:\\\\tests\\\\in53.txt" ,"D:\\\\tests\\\\out53.txt", "D:\\\\tests\\\\expected53.txt");
     }
-
-
 }

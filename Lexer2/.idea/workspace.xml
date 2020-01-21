@@ -4,19 +4,7 @@
     <list default="true" id="ef39a83c-8147-445a-a285-a6d5f30b41a5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Lexer2/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Lexer2/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lexer2/Node.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lexer2/Result.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lexer2/Syntax$Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Lexer2/Syntax$Node.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lexer2/Syntax$NodeAssignOp.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Lexer2/Syntax$NodeAssignOp.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lexer2/Syntax$NodeBinaryOP.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Lexer2/Syntax$NodeBinaryOP.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lexer2/Syntax$NodeCall.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Lexer2/Syntax$NodeCall.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lexer2/Syntax$NodeInteger.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Lexer2/Syntax$NodeInteger.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lexer2/Syntax$NodeRecordAccess.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Lexer2/Syntax$NodeRecordAccess.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lexer2/Syntax$NodeUnaryOP.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Lexer2/Syntax$NodeUnaryOP.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Lexer2/Syntax$NodeVar.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Lexer2/Syntax$NodeVar.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Lexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lexer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Syntax.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Syntax.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -55,19 +43,14 @@
     </option>
   </component>
   <component name="RunManager">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Lexer2" />
-      <option name="PROGRAM_PARAMETERS" value="D:\\tests\\" />
+      <option name="PROGRAM_PARAMETERS" value="D:\\tests\\ P" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Application.Main" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
