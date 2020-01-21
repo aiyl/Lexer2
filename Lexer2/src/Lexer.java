@@ -1,37 +1,105 @@
 import java.util.HashSet;
 
 public class Lexer {
+    private static HashSet<String> keyWords() {
+        HashSet<String> keyWords = new HashSet<>();
+        keyWords.add("begin");
+        keyWords.add("const");
+        keyWords.add("file");
+        keyWords.add("break");
+        keyWords.add("end");
+        keyWords.add("div");
+        keyWords.add("for");
+        keyWords.add("continue");
+        keyWords.add("array");
+        keyWords.add("do");
+        keyWords.add("function");
+        keyWords.add("writeln");
+        keyWords.add("and");
+        keyWords.add("downto");
+        keyWords.add("goto");
+        keyWords.add("write");
+        keyWords.add("case");
+        keyWords.add("else");
+        keyWords.add("to");
+        keyWords.add("readln");
+        keyWords.add("if");
+        keyWords.add("mod");
+        keyWords.add("of");
+        keyWords.add("read");
+        keyWords.add("in");
+        keyWords.add("nil");
+        keyWords.add("packed");
+        keyWords.add("char");
+        keyWords.add("label");
+        keyWords.add("not");
+        keyWords.add("procedure");
+        keyWords.add("exit");
+        keyWords.add("record");
+        keyWords.add("then");
+        keyWords.add("var");
+        keyWords.add("xor");
+        keyWords.add("repeat");
+        keyWords.add("type");
+        keyWords.add("while");
+        keyWords.add("integer");
+        keyWords.add("set");
+        keyWords.add("until");
+        keyWords.add("with");
+        keyWords.add("double");
+        return keyWords;
+    }
+    private static HashSet arithmeticOperator() {
+        HashSet<Character> arithmeticOperator = new HashSet<>();
+        arithmeticOperator.add('*');
+        arithmeticOperator.add('/');
+        arithmeticOperator.add('^');
+        arithmeticOperator.add('-');
+        arithmeticOperator.add('+');
+        arithmeticOperator.add('>');
+        arithmeticOperator.add('<');
+        arithmeticOperator.add('=');
+        return arithmeticOperator;
+    }
+    private static HashSet symbols(){
+        HashSet<Character> symbols = new HashSet<>();
+        symbols.add('#');
+        symbols.add('$');
+        symbols.add('&');
+        symbols.add('@');
+        //symbols.add(':');
+        symbols.add('_');
+        symbols.add('~');
+        symbols.add('%');
+        return symbols;
+    }
+    private static HashSet separateOperator() {
+        HashSet<Character> separateOperator = new HashSet<>();
+        separateOperator.add(')');
+        separateOperator.add('.');
+        separateOperator.add(']');
+        separateOperator.add(';');
+        separateOperator.add('(');
+        separateOperator.add('[');
+        separateOperator.add(',');
+        separateOperator.add(':');
+        return separateOperator;
+    }
+    private static HashSet doubleOperators(){
+        HashSet<String> doubleOperators = new HashSet<>();
+        doubleOperators.add("\"\"");
+        doubleOperators.add("<=");
+        doubleOperators.add(">=");
+        doubleOperators.add("<>");
+        return doubleOperators;
+    }
 //    boolean commentFlag;
     String str;
     int pos, linenum=1, tokenstart=0, linestart=0;
     int openComment=0, closeComment=0;
     Token buf;
 
-    HashSet<String> keyWords = new HashSet<>();
 
-    public void getKeyWords(HashSet<String> keyWords) {
-        this.keyWords = keyWords;
-    }
-    HashSet<String> doubleOperators = new HashSet<>();
-
-    public void getDoubleOperators(HashSet<String> doubleOperators) {
-        this.doubleOperators = doubleOperators;
-    }
-
-    HashSet <Character> arithmeticOperator = new HashSet<>();
-    public void getArithmeticOperator(HashSet<Character> arithmeticOperator) {
-        this.arithmeticOperator = arithmeticOperator;
-    }
-    HashSet <Character> symbols = new HashSet<>();
-    public void getSymbols(HashSet<Character> symbols) {
-        this.symbols= symbols;
-    }
-
-    HashSet<Character> separateOperator = new HashSet<>();
-
-    public void getSeparateOperator(HashSet<Character> separateOperator) {
-        this.separateOperator = separateOperator;
-    }
 
     Lexer(String string) {
         this.str = string;
@@ -200,13 +268,14 @@ public class Lexer {
             }
 
     }
+
         if (Character.isLetter(str.charAt(pos))) {
             String t = "";
             while (pos < length && Character.isLetterOrDigit(str.charAt(pos))) {
                 t += str.charAt(pos);
                 pos++;
             }
-            if(keyWords.contains(t)){
+            if(keyWords().contains(t)){
                 return new Token(linenum,tokenstart,TokenType.KEYWORD,t);
             }
             return new Token(linenum,tokenstart,TokenType.IDENTIFIER, t);
@@ -216,23 +285,22 @@ public class Lexer {
             return new Token(linenum,pos-1,TokenType.ASSIGNMENT_OPERATOR, ":=");
         }
 
-
-        if (arithmeticOperator.contains(str.charAt(pos))) {
+        if (arithmeticOperator().contains(str.charAt(pos))) {
                 String t = "";
                 while (
-                        pos < length && arithmeticOperator.contains(str.charAt(pos)) &&
-                                (t.length() == 0 || doubleOperators.contains(t + str.charAt(pos)))
+                        pos < length && arithmeticOperator().contains(str.charAt(pos)) &&
+                                (t.length() == 0 || doubleOperators().contains(t + str.charAt(pos)))
                 ) {
                     t += str.charAt(pos);
                     pos++;
                 }
                 return new Token(linenum, tokenstart, TokenType.ARITHMETIC_OPERATOR, t);
             }
-        if (symbols.contains(str.charAt(pos)) && pos<length){
+        if (symbols().contains(str.charAt(pos)) && pos<length){
             pos++;
             return new Token(linenum,tokenstart,TokenType.SYMBOLS, String.valueOf(str.charAt(pos-1)));
         }
-        if (separateOperator.contains(str.charAt(pos)) && pos<length){
+        if (separateOperator().contains(str.charAt(pos)) && pos<length){
             pos++;
             return new Token(linenum,tokenstart,TokenType.SEPARATE_OPERATOR, String.valueOf(str.charAt(pos-1)));
         }

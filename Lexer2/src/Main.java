@@ -1,93 +1,6 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-
 public class Main {
-
     private static void runLexer(String inPath, String outPath, String expectedPath) {
-        ArrayList <Token> arrayTokens= new ArrayList();
-        HashSet<String> keyWords = new HashSet<>();
-        keyWords.add("begin");
-        keyWords.add("const");
-        keyWords.add("file");
-        keyWords.add("break");
-        keyWords.add("end");
-        keyWords.add("div");
-        keyWords.add("for");
-        keyWords.add("continue");
-        keyWords.add("array");
-        keyWords.add("do");
-        keyWords.add("function");
-        keyWords.add("writeln");
-        keyWords.add("and");
-        keyWords.add("downto");
-        keyWords.add("goto");
-        keyWords.add("write");
-        keyWords.add("case");
-        keyWords.add("else");
-        keyWords.add("to");
-        keyWords.add("readln");
-        keyWords.add("if");
-        keyWords.add("mod");
-        keyWords.add("of");
-        keyWords.add("read");
-        keyWords.add("in");
-        keyWords.add("nil");
-        keyWords.add("packed");
-        keyWords.add("char");
-        keyWords.add("label");
-        keyWords.add("not");
-        keyWords.add("procedure");
-        keyWords.add("exit");
-        keyWords.add("record");
-        keyWords.add("then");
-        keyWords.add("var");
-        keyWords.add("xor");
-        keyWords.add("repeat");
-        keyWords.add("type");
-        keyWords.add("while");
-        keyWords.add("integer");
-        keyWords.add("set");
-        keyWords.add("until");
-        keyWords.add("with");
-        keyWords.add("double");
-
-        HashSet<Character> arithmeticOperator = new HashSet<>();
-        arithmeticOperator.add('*');
-        arithmeticOperator.add('/');
-        arithmeticOperator.add('^');
-        arithmeticOperator.add('-');
-        arithmeticOperator.add('+');
-        arithmeticOperator.add('>');
-        arithmeticOperator.add('<');
-        arithmeticOperator.add('=');
-        HashSet<Character> symbols = new HashSet<>();
-        symbols.add('#');
-        symbols.add('$');
-        symbols.add('&');
-        symbols.add('@');
-        //symbols.add(':');
-        symbols.add('_');
-        symbols.add('~');
-        symbols.add('%');
-
-
-        HashSet<Character> separateOperator = new HashSet<>();
-        separateOperator.add(')');
-        separateOperator.add('.');
-        separateOperator.add(']');
-        separateOperator.add(';');
-        separateOperator.add('(');
-        separateOperator.add('[');
-        separateOperator.add(',');
-        separateOperator.add(':');
-
-        HashSet<String> doubleOperators = new HashSet<>();
-        doubleOperators.add("\"\"");
-        doubleOperators.add("<=");
-        doubleOperators.add(">=");
-        doubleOperators.add("<>");
-
         try {
             File file = new File(inPath);
             FileReader fr = new FileReader(file);
@@ -103,14 +16,7 @@ public class Main {
                 str += (String.valueOf((char) line));
 
             }
-            //System.out.println(linenum);
             Lexer lexer = new Lexer(str);
-
-            lexer.getKeyWords(keyWords);
-            lexer.getSeparateOperator(separateOperator);
-            lexer.getArithmeticOperator(arithmeticOperator);
-            lexer.getSymbols(symbols);
-            lexer.getDoubleOperators(doubleOperators);
             /*while (true) {
                 Token t = lexer.next();
                 arrayTokens.add(t);
@@ -126,22 +32,7 @@ public class Main {
             fr.close();
             fw.close();
             Parser parser = new Parser(lexer);
-            System.out.println(parser.ParseExpression());
-            //Parser parser = new Parser(arrayTokens);
-           // Parser pm = new Parser(arrayTokens);
-          //  System.out.println( "PlusMinus: " + pm.Parse(arrayTokens) );
-          /*  String f = "102+6";
-            try{
-                System.out.println( "PlusMinus: " + pm.Parse(f) );
-            }catch(Exception e){
-                System.err.println( "Error while parsing '"+f+"' with message: " + e.getMessage() );
-            }*/
-
-
-
-
-            //parser.getToken();
-            //parser.print();
+            parser.ParseExpression().print(1);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -195,7 +86,7 @@ public class Main {
             i++;
 
         }*/
-        runLexer("D:\\\\tests\\\\in12.txt" ,"D:\\\\tests\\\\out12.txt", "D:\\\\tests\\\\expected12.txt");
+        runLexer("D:\\\\tests\\\\in53.txt" ,"D:\\\\tests\\\\out53.txt", "D:\\\\tests\\\\expected53.txt");
     }
 
 
