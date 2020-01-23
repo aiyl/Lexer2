@@ -7,31 +7,67 @@ public class Parser {
         this.lexer=lexer;
     }
 
-    ArrayList<Syntax.Node>  ParseIndentList() throws Exception{
-       ArrayList <Syntax.Node> identList = new ArrayList<>();
+    Syntax.Node  ParseIndentList() throws Exception{
+       //ArrayList <Syntax.Node> identList = new ArrayList<>();
+        ArrayList <String> identList = new ArrayList<>();
        // Syntax.Node variabledecl = new Syntax.NodeUnaryOP("var", );
         Token t= lexer.next();
-        Syntax.Node variable;
+        //Syntax.Node variable;
+        String variable;
         while (!t.token.equals(";")) {
-            if (t.type == TokenType.IDENTIFIER) {
-                variable = new Syntax.NodeVar((String) t.token);
+            if (t.type == TokenType.IDENTIFIER && (t.type != TokenType.KEYWORD)) {
+                variable = new Syntax.NodeVar((String) t.token).name;
                 identList.add(variable);
-                variable.print(1);
-                //System.out.println(variable);
                 t=lexer.next();
             } else
                 if (t.token.equals(","))
                     t = lexer.next();
                 else
-                    throw new Exception("this variable can't be ident ");
+                    throw new Exception("this variable can't be ident or can't find ; ");
         }
        // System.out.println(identList);
-        return identList;
+        return new Syntax.IdentList(identList);
     }
 
-    Syntax.Node ParseVariableDecl() throws Exception{
-        return null;
+    /*Syntax.Node ParseBlock() throws Exception{
+        ArrayList<Syntax.Node> declList = new ArrayList<>();
+        Token t= lexer.next();
+        Syntax.Node decl=null; //Change it in future
+        if (t.token.equals("const") || t.token.equals("var") || t.token.equals("function") || t.token.equals("procedure") && t.type==TokenType.KEYWORD){
+            decl = ParseDeclarations();
+            declList.add(decl);
+            while (t.token.equals("const") || t.token.equals("var") || t.token.equals("function") || t.token.equals("procedure") && t.type==TokenType.KEYWORD){
+                decl =  ParseDeclarations();
+                declList.add(decl);
+            }
+        }
+        if (t.token.equals("begin")){
+            Syntax.Node states= ParseStatementSequence();
+        }
+        return new Syntax.BlockNode(declList, decl);
     }
+
+
+    Syntax.Node ParseDeclarations() throws Exception{
+        Token t= lexer.next();
+        Syntax.Node constant;
+        ArrayList<Syntax.DeclarationsNode> declList = new ArrayList<>();
+        if((t.token.equals("const")){
+            constant = new ParseConstantDefBlock();
+            declList.add(constant);
+        }
+        if((t.token.equals("var")){
+            constant = new ParseVariableDeclBlock();
+            declList.add(constant);
+        }
+        if((t.token.equals("function") || t.token.equals("procedure")){
+            constant = new ParseSubprogDeclList();
+            declList.add(constant);
+        }
+        return new Syntax.DeclarationsNode(declList);
+    }
+
+*/
 
     Syntax.Node ParseExpression() throws Exception {
         Syntax.Node left = ParseTerm();
@@ -77,6 +113,15 @@ public class Parser {
         if(t.type==TokenType.IDENTIFIER){
             return new Syntax.NodeVar((String)t.token);
         }
+        if(t.type==TokenType._STRING){
+            return new Syntax.NodeString((String)t.token);
+        }
+        if(t.token.equals("nil")){
+            lexer.next();
+            return new Syntax.NodeNil("nil");
+        }
+
+
         if(t.token.equals("-")){
             Token t2=lexer.next();
             lexer.putBack(t2);
@@ -90,15 +135,65 @@ public class Parser {
             }
             return expression;
         }
-//        Syntax.Node left = ParseSetValue();
+        if(t.token.equals("not")){
+            lexer.next();
+            Syntax.Node p = ParseNot();
+            return new Syntax.NodeNot("not", p);
+        }
+
+        Syntax.Node left = ParseSetValue();
 
         throw new Exception("unknown token");
     }
-    /*Syntax.Node ParseNodeCall(){
-        Token t=lexer.next();
 
+    Syntax.Node ParseNot() throws Exception{
+        Syntax.Node left = ParseFactor();
+        return left;
+    }
+
+    Syntax.Node ParseSetValue() throws Exception{
+        ArrayList<Syntax.Node> valueList = new ArrayList<>();
+        Token t = lexer.next();
+        if (t.token.equals("[")){
+            while (true){
+            Syntax.Node element =  ParseElement();
+            valueList.add(element);
+            if (t.token.equals(",")){
+                t=lexer.next();
+            }
+            if(lexer.next().token.equals("]"))
+                break;
+            }
+            return new Syntax.NodeSetValue(valueList);
         }
-    }*/
+        throw new Exception(" Missing close !!!]");
+    }
+
+    Syntax.Node ParseElement() throws Exception{
+        Syntax.Node constExpression = ParseConstExpression();
+        Token t=lexer.next();
+        while (true) {
+            if (t.token.equals("..")) {
+                t = lexer.next();
+                constExpression = ParseConstExpression();
+            }
+            else
+                //lexer.putBack(t);
+                break;
+        }
+    return constExpression;
+    }
+    Syntax.Node ParseConstExpression() throws Exception{
+        Syntax.Node constFactor = ParseFactor();
+        Token t = lexer.next();
+        return constFactor; // SO WARNING!!!
+    }
+
+    Syntax.Node ParseNodeCall(){
+        Token t=lexer.next();
+    return null;
+    }
+
 
 
 }

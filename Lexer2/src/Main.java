@@ -32,6 +32,7 @@ public class Main {
             }
             if(testType){
             Parser parser = new Parser(lexer);
+               // parser.ParseIndentList().print(1);
             parser.ParseExpression().print(1);
 //            parser.ParseIndentList(); //Временно!!!!
             }
@@ -99,7 +100,7 @@ public class Main {
         }
 
        if(testType){
-           while (i <= 10) {
+           while (i <= 12) {
                inPath=path+"in"+String.valueOf(i)+".txt";
                outPath=path+"out"+String.valueOf(i)+".txt";
                expectedPath=path+"expected"+String.valueOf(i)+".txt";
@@ -108,6 +109,6 @@ public class Main {
                i++;
            }
        }
-        //runLexer("D:\\\\tests\\\\ParserTests\\\\in9.txt" ,"D:\\\\tests\\\\ParserTests\\\\out9.txt", "D:\\\\tests\\\\ParserTests\\\\expected9.txt", testType);
+        //runLexer("D:\\\\tests\\\\ParserTests\\\\in12.txt" ,"D:\\\\tests\\\\ParserTests\\\\out12.txt", "D:\\\\tests\\\\ParserTests\\\\expected12.txt", testType);
     }
 }

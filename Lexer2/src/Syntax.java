@@ -56,16 +56,87 @@ public  class Syntax {
         }
     }
     public static class IdentList extends Node {
-        ArrayList<Token> identList;
+        ArrayList<String> identList;
         @Override
         void print(int d){
             super.print(d);
             System.out.println(identList);
         }
-        public IdentList(ArrayList<Token> identList){
+        public IdentList(ArrayList<String> identList){
             this.identList=identList;
         }
     }
+
+    public static class ProgramParamsNode extends Node {
+        IdentList identList;
+        @Override
+        void print(int d){
+            super.print(d);
+            System.out.println(identList);
+        }
+        public ProgramParamsNode(IdentList identList){
+            this.identList=identList;
+        }
+    }
+
+    public static class BlockNode extends Node {
+        ArrayList declarations;
+        Node StatementSequence;
+        @Override
+        void print(int d){
+            super.print(d);
+            System.out.println(String.valueOf(declarations) );
+        }
+        public BlockNode(ArrayList declarations,Node StatementSequence){
+            this.declarations=declarations;
+            this.StatementSequence=StatementSequence;
+
+        }
+    }
+
+
+    public static class ProgramModuleNode extends Node {
+        String name;
+        ProgramParamsNode params;
+        BlockNode body;
+        @Override
+        void print(int d){
+            super.print(d);
+            System.out.println(String.valueOf(name) );
+        }
+        public ProgramModuleNode(String name, ProgramParamsNode params, BlockNode body){
+            this.name=name;
+            this.params=params;
+            this.body=body;
+
+        }
+    }
+
+    public static class DeclarationsNode extends Node {
+        ArrayList declarations;
+        @Override
+        void print(int d){
+            super.print(d);
+            System.out.println(String.valueOf(declarations) );
+        }
+        public DeclarationsNode(ArrayList declarations){
+            this.declarations=declarations;
+        }
+    }
+
+    public static class ConstDefBlockNode extends Node {
+        ArrayList constans;
+        @Override
+        void print(int d){
+            super.print(d);
+            System.out.println(String.valueOf(constans) );
+        }
+        public ConstDefBlockNode(ArrayList constans){
+            this.constans=constans;
+        }
+    }
+
+
     /*public static class IdentListBlock extends Node {
         ArrayList<Token> identList;
         @Override
@@ -101,17 +172,74 @@ public  class Syntax {
             this.value=value;
         }
     }
-
-
-    public class NodeRecordAccess extends NodeUnaryOP {
-        public NodeRecordAccess(String opname, Node arg) {
-            super(opname, arg);
+    public static class NodeString extends Node {
+        String value;
+        @Override
+        void print(int d){
+            super.print(d);
+            System.out.println(value);
+        }
+        public NodeString(String value){
+            this.value=value;
         }
     }
+
+    public static class NodeNil extends Node {
+        String value = "nil";
+        @Override
+        void print(int d){
+            super.print(d);
+            System.out.println(value);
+        }
+        public NodeNil(String value){
+            this.value=value;
+        }
+    }
+
+    public static class NodeNot extends Node {
+        String op;
+        Node left;
+        @Override
+        void print(int d){
+            super.print(d);
+            System.out.println(op);
+        }
+        public NodeNot(String op,Node left){
+            this.op=op;
+            this.left=left;
+        }
+    }
+
+
+    public static class NodeSetValue extends Node {
+        ArrayList<Syntax.Node> list;
+
+        @Override
+        void print(int d) {
+            super.print(d);
+            System.out.println(list);
+        }
+
+        public NodeSetValue(ArrayList<Syntax.Node> list) {
+            this.list = list;
+
+        }
+    }
+
+        public class NodeRecordAccess extends NodeUnaryOP {
+            public NodeRecordAccess(String opname, Node arg) {
+                super(opname, arg);
+            }
+        }
+
+
     public class NodeAssignOp extends NodeBinaryOP{
         public NodeAssignOp(String opname, Node left, Node right) {
             super(opname, left, right);
         }
     }
+
+
+
 
 }

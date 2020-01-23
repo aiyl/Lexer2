@@ -230,7 +230,7 @@ public class Lexer {
         }
         if ((str.charAt(pos)=='.')&&isPeek('.')) {
             pos=pos+2;
-            return new Token(linenum,pos-1,TokenType.SEPARATE_OPERATOR, "..");
+            return new Token(linenum,tokenstart,TokenType.SEPARATE_OPERATOR, "..");
         }
 
         if (Character.isDigit(str.charAt(pos))) {
@@ -292,7 +292,7 @@ public class Lexer {
         }
         if ((str.charAt(pos)==':') && isPeek('=')){
             pos=pos+2;
-            return new Token(linenum,pos-1,TokenType.ASSIGNMENT_OPERATOR, ":=");
+            return new Token(linenum,tokenstart,TokenType.ASSIGNMENT_OPERATOR, ":=");
         }
 
         if (arithmeticOperator().contains(str.charAt(pos))) {
