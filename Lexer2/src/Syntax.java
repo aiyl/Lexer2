@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public  class Syntax {
     public static class  Node {
         void print(int d){
@@ -20,9 +22,14 @@ public  class Syntax {
             this.right=right;
         }
     }
-    public class NodeUnaryOP extends Node {
+    public static class NodeUnaryOP extends Node {
         String opname;
         Node arg;
+        @Override
+        void print(int d){
+            super.print(d);
+            System.out.println(opname);
+        }
         public NodeUnaryOP(String opname, Node arg){
             this.opname=opname;
             this.arg=arg;
@@ -48,6 +55,29 @@ public  class Syntax {
             this.name=name;
         }
     }
+    public static class IdentList extends Node {
+        ArrayList<Token> identList;
+        @Override
+        void print(int d){
+            super.print(d);
+            System.out.println(identList);
+        }
+        public IdentList(ArrayList<Token> identList){
+            this.identList=identList;
+        }
+    }
+    /*public static class IdentListBlock extends Node {
+        ArrayList<Token> identList;
+        @Override
+        void print(int d){
+            super.print(d);
+            System.out.println(identList);
+        }
+        public IdentList(ArrayList<Token> identList){
+            this.identList=identList;
+        }
+    }*/
+
     public static class NodeInteger extends Node {
         int value;
         @Override
@@ -59,6 +89,19 @@ public  class Syntax {
             this.value=value;
         }
     }
+
+    public static class NodeDouble extends Node {
+        double value;
+        @Override
+        void print(int d){
+            super.print(d);
+            System.out.println(value);
+        }
+        public NodeDouble(double value){
+            this.value=value;
+        }
+    }
+
 
     public class NodeRecordAccess extends NodeUnaryOP {
         public NodeRecordAccess(String opname, Node arg) {

@@ -47,7 +47,14 @@ public class Lexer {
         keyWords.add("until");
         keyWords.add("with");
         keyWords.add("double");
+        keyWords.add("or");
         return keyWords;
+    }
+    private static HashSet booleanOperator() {
+        HashSet<String> booleanOperator = new HashSet<>();
+        booleanOperator.add("true");
+        booleanOperator.add("false");
+        return booleanOperator;
     }
     private static HashSet arithmeticOperator() {
         HashSet<Character> arithmeticOperator = new HashSet<>();
@@ -274,6 +281,9 @@ public class Lexer {
             while (pos < length && Character.isLetterOrDigit(str.charAt(pos))) {
                 t += str.charAt(pos);
                 pos++;
+            }
+            if(booleanOperator().contains(t)){
+                return new Token(linenum,tokenstart,TokenType.BOOLEAN,t);
             }
             if(keyWords().contains(t)){
                 return new Token(linenum,tokenstart,TokenType.KEYWORD,t);

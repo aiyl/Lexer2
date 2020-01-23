@@ -10,4 +10,5 @@ public enum TokenType {
     DOUBLE,
     ASSIGNMENT_OPERATOR,
     EOF,
+    BOOLEAN,
 }

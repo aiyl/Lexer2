@@ -33,6 +33,7 @@ public class Main {
             if(testType){
             Parser parser = new Parser(lexer);
             parser.ParseExpression().print(1);
+//            parser.ParseIndentList(); //Временно!!!!
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -79,21 +80,34 @@ public class Main {
         if (args[1].contains("L"))
             path=args[0]+"\\\\LexerTests\\\\";
         if (args[1].contains("P")){
-            path=args[0]+"\\\\ParseTests\\\\";
+            path=args[0]+"\\\\ParserTests\\\\";
             testType=true;
         }
+        if(args[1].contains("L")){
         while (i <= 51) {
             inPath=path+"in"+String.valueOf(i)+".txt";
             outPath=path+"out"+String.valueOf(i)+".txt";
             expectedPath=path+"expected"+String.valueOf(i)+".txt";
             runLexer(inPath,outPath, expectedPath, testType);
-           /* if(compare(expectedPath,outPath))
+            if(compare(expectedPath,outPath))
                 System.out.println(" success ");
             else
-                System.out.println(" failed "); NOT ALWAYS*/
+                System.out.println(" failed ");
             i++;
 
         }
-       // runLexer("D:\\\\tests\\\\in53.txt" ,"D:\\\\tests\\\\out53.txt", "D:\\\\tests\\\\expected53.txt");
+        }
+
+       if(testType){
+           while (i <= 10) {
+               inPath=path+"in"+String.valueOf(i)+".txt";
+               outPath=path+"out"+String.valueOf(i)+".txt";
+               expectedPath=path+"expected"+String.valueOf(i)+".txt";
+               System.out.println("_____________________________");
+               runLexer(inPath,outPath, expectedPath, testType);
+               i++;
+           }
+       }
+        //runLexer("D:\\\\tests\\\\ParserTests\\\\in9.txt" ,"D:\\\\tests\\\\ParserTests\\\\out9.txt", "D:\\\\tests\\\\ParserTests\\\\expected9.txt", testType);
     }
 }
