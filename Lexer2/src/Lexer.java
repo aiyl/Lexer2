@@ -183,13 +183,13 @@ public class Lexer {
         }
         buf=t;
     }
+
     Token next() {
         if(buf!=null){
             var t=buf;
             buf=null;
             return t;
         }
-
         str=str.toLowerCase();
         int length = str.length();
 

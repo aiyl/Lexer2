@@ -31,9 +31,11 @@ public class Main {
                 fw.close();
             }
             if(testType){
+
             Parser parser = new Parser(lexer);
                // parser.ParseIndentList().print(1);
-            parser.ParseExpression().print(1);
+            //parser.ParseExpression().print(1);
+                parser.ParseSetValue().print(1);
 //            parser.ParseIndentList(); //Временно!!!!
             }
         } catch (FileNotFoundException e) {
@@ -99,7 +101,7 @@ public class Main {
         }
         }
 
-       if(testType){
+      /* if(testType){
            while (i <= 12) {
                inPath=path+"in"+String.valueOf(i)+".txt";
                outPath=path+"out"+String.valueOf(i)+".txt";
@@ -108,7 +110,7 @@ public class Main {
                runLexer(inPath,outPath, expectedPath, testType);
                i++;
            }
-       }
-        //runLexer("D:\\\\tests\\\\ParserTests\\\\in12.txt" ,"D:\\\\tests\\\\ParserTests\\\\out12.txt", "D:\\\\tests\\\\ParserTests\\\\expected12.txt", testType);
+       }*/
+        runLexer("D:\\\\tests\\\\ParserTests\\\\in13.txt" ,"D:\\\\tests\\\\ParserTests\\\\out13.txt", "D:\\\\tests\\\\ParserTests\\\\expected13.txt", testType);
     }
 }

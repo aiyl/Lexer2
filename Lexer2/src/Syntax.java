@@ -55,6 +55,7 @@ public  class Syntax {
             this.name=name;
         }
     }
+
     public static class IdentList extends Node {
         ArrayList<String> identList;
         @Override
@@ -109,6 +110,19 @@ public  class Syntax {
             this.params=params;
             this.body=body;
 
+        }
+    }
+
+    public static class NodeElement extends Node {
+        String name;
+        // Node element;
+        @Override
+        void print(int d){
+            super.print(d);
+            System.out.println(name);
+        }
+        public NodeElement(String name){
+            this.name=name;
         }
     }
 
