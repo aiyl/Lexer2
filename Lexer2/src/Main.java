@@ -37,7 +37,8 @@ public class Main {
             //parser.ParseExpression().print(1);
                // parser.ParseSetValue().print(1);
            // parser.ParseAssignment().print(1); //Временно!!!!
-                parser.ParseIfStatement().print(1);
+                //parser.ParseIfStatement().print(1);
+                parser.ParseForStatement().print(1);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -102,8 +103,8 @@ public class Main {
         }
         }
 
-      /* if(testType){
-           while (i <= 12) {
+       /*if(testType){
+           while (i <= 18) {
                inPath=path+"in"+String.valueOf(i)+".txt";
                outPath=path+"out"+String.valueOf(i)+".txt";
                expectedPath=path+"expected"+String.valueOf(i)+".txt";
@@ -112,6 +113,6 @@ public class Main {
                i++;
            }
        }*/
-        runLexer("D:\\\\tests\\\\ParserTests\\\\in18.txt" ,"D:\\\\tests\\\\ParserTests\\\\out18.txt", "D:\\\\tests\\\\ParserTests\\\\expected18.txt", testType);
+        runLexer(path+"in20.txt" ,"D:\\\\tests\\\\ParserTests\\\\out19.txt", "D:\\\\tests\\\\ParserTests\\\\expected18.txt", testType);
     }
 }

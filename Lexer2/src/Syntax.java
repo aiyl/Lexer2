@@ -136,6 +136,47 @@ public  class Syntax {
         }
     }
 
+    public static class NodeForStatement extends Node{
+        String name;
+        NodeVar ident;
+        NodeWhichWay way;
+        Node exp1,  exp2, statement;
+        @Override
+        void print(int d){
+            super.print(d);
+           // System.out.println(String.valueOf(name) + " " + ident.name + " "+ exp1 + " " + way.name + " "+exp2);
+            System.out.println(String.valueOf(name) );
+            ident.print(d+1);
+            exp1.print(d+1);
+            way.print(d+1);
+            exp2.print(d+1);
+            statement.print(d+1);
+        }
+    public NodeForStatement(String name, NodeVar ident, Node exp1, NodeWhichWay whichWay, Node exp2, Node statement) {
+        this.name = name;
+        this.ident = ident;
+        this.exp1 = exp1;
+        this.exp2 = exp2;
+        this.way = whichWay;
+        this.statement = statement;
+        }
+
+    }
+
+    public static class NodeWhichWay extends Node{
+        String name;
+        @Override
+        void print(int d){
+            super.print(d);
+            System.out.println(String.valueOf(name) );
+        }
+        public NodeWhichWay(String name){
+            this.name = name;
+        }
+
+    }
+
+
     public static class AssignmentNode extends Node {
         String name;
         NodeVar ident;

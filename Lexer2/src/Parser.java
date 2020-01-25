@@ -162,21 +162,15 @@ public class Parser {
             t=lexer.next();
             var right = ParseStatement();
             if (t.token.equals("then")) {
-                 //left = ParseExpression();
                  t=lexer.next();
-                //var right = ParseStatement();
                 if (t.token.equals("else")) {
                     var right2 = ParseStatement();
                     var elIf = new Syntax.ElIfNode(op, left,right, right2) ;
                     return elIf;
                 }
                 return new Syntax.IfNode(op, left, right);
-                //return new Syntax.NodeBinaryOP(op, left, right);
             }
-
         }
-        //throw new Exception("error in IfStatement !!! ");
-
     }
     Syntax.Node ParseStatement() throws Exception {
         Token t=lexer.next();
@@ -184,12 +178,51 @@ public class Parser {
             var statement = ParseIfStatement();
             return statement;
         }
-        var assignment = ParseAssignment(t);
-       /* if(t.token.equals("while")){
+        if(t.token.equals("for")){
+            var statement = ParseForStatement();
+            return statement;
+        }
+        if(t.type==TokenType.IDENTIFIER){
+            var statement = ParseAssignment(t);
+            return statement;
+        }
+        throw new Exception("can't find statement !!! ");
+    }
 
-        }*/
-       return assignment;
-        //throw new Exception("can't find statement !!! ");
+    Syntax.Node ParseForStatement() throws Exception{
+        Token t = lexer.next();
+       /* if (t.token.equals("for"))
+            lexer.putBack(t);*/
+        String op="for";
+        while (true){
+            t=lexer.next();
+            if(t.type==TokenType.IDENTIFIER){
+                Syntax.NodeVar ident = new Syntax.NodeVar((String) t.token);
+                t=lexer.next();
+                if (t.type==TokenType.ASSIGNMENT_OPERATOR){
+                   // t=lexer.next();
+                    var exp = ParseExpression();
+                    t=lexer.next();
+                    var way = ParseWhichWay(t);
+                    var exp2=ParseExpression();
+                    t=lexer.next();
+                    if(t.token.equals("do")){
+                        Syntax.Node statement = ParseStatement();
+                        return   new Syntax.NodeForStatement(op, ident, exp, (Syntax.NodeWhichWay) way, exp2, statement );
+                    }
+                    throw new Exception("You have to do something after do !!! ");
+                }
+                throw new Exception("You need to add assignment !!! ");
+            }
+            throw new Exception("for FOR you need ident ");
+        }
+    }
+
+    Syntax.Node ParseWhichWay(Token t) throws Exception{
+        if(t.token.equals("to")) {
+            return new Syntax.NodeWhichWay("to");
+        }
+        return new Syntax.NodeWhichWay("downto");
     }
 
     Syntax.Node ParseAssignment(Token t) throws Exception{
@@ -203,14 +236,16 @@ public class Parser {
                 return new Syntax.AssignmentNode(":=", left, right);
             }
             else {
-                throw new Exception("Error in ParseAssignment!!! can't assign it ");
+                lexer.putBack(t);
+                break;
+                //throw new Exception("Error in ParseAssignment!!! can't assign it ");
             }
         }
         else
             lexer.putBack(t);
             break;
         }
-        throw new Exception("Error in ParseAssignment!!! ");
+        throw new Exception("Error in ParseAssignment!!!  ");
 
     }
 

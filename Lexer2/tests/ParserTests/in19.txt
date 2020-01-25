@@ -1,1 +1,3 @@
-+-lol
+for a:=1 to b3 do
+    if a8 then
+    	if k then a:=2
