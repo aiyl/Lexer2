@@ -38,7 +38,8 @@ public class Main {
                // parser.ParseSetValue().print(1);
            // parser.ParseAssignment().print(1); //Временно!!!!
                 //parser.ParseIfStatement().print(1);
-                parser.ParseForStatement().print(1);
+               // parser.ParseForStatement().print(1);
+                parser.ParseWhileStatement().print(1);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -113,6 +114,6 @@ public class Main {
                i++;
            }
        }*/
-        runLexer(path+"in20.txt" ,"D:\\\\tests\\\\ParserTests\\\\out19.txt", "D:\\\\tests\\\\ParserTests\\\\expected18.txt", testType);
+        runLexer(path+"in21.txt" ,"D:\\\\tests\\\\ParserTests\\\\out19.txt", "D:\\\\tests\\\\ParserTests\\\\expected18.txt", testType);
     }
 }

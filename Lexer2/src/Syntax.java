@@ -163,6 +163,24 @@ public  class Syntax {
 
     }
 
+    public static class NodeWhileStatement extends Node{
+        String name;
+        Node expr, statement;
+        @Override
+        void print(int d){
+            super.print(d);
+            System.out.println(String.valueOf(name) );
+            expr.print(d+1);
+            statement.print(d+1);
+        }
+        public NodeWhileStatement(String name, Node expr, Node statement) {
+            this.name = name;
+            this.expr = expr;
+            this.statement = statement;
+        }
+
+    }
+
     public static class NodeWhichWay extends Node{
         String name;
         @Override

@@ -118,7 +118,6 @@ public class Parser {
         }
 
         if(t.token.equals("nil")){
-            lexer.next();
             return new Syntax.NodeNil("nil");
         }
 
@@ -223,6 +222,22 @@ public class Parser {
             return new Syntax.NodeWhichWay("to");
         }
         return new Syntax.NodeWhichWay("downto");
+    }
+
+    Syntax.Node ParseWhileStatement() throws Exception{
+        String op ="while";
+        Token t=lexer.next();
+        if(t.token.equals("while")){
+            var expr = ParseExpression();
+            t=lexer.next();
+          //  t=lexer.next();
+            if (t.token.equals("do")){
+                var statement = ParseStatement();
+                return new Syntax.NodeWhileStatement(op, expr, statement);
+            }
+            throw new Exception("you have to do something after do !!! ");
+        }
+        throw new Exception("error in ParseWhileStatement ");
     }
 
     Syntax.Node ParseAssignment(Token t) throws Exception{
