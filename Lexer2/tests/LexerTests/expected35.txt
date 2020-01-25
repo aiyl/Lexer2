@@ -1,0 +1,4 @@
+line	column	token	type
+1	1	iejffe	IDENTIFIER
+3	1	.	SEPARATE_OPERATOR
+3	2	20.0	DOUBLE

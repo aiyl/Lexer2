@@ -1,0 +1,2 @@
+line	column	token	type
+2	1	var	KEYWORD

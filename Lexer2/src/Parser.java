@@ -116,6 +116,7 @@ public class Parser {
         if(t.type==TokenType._STRING){
             return new Syntax.NodeString((String)t.token);
         }
+
         if(t.token.equals("nil")){
             lexer.next();
             return new Syntax.NodeNil("nil");
@@ -141,23 +142,87 @@ public class Parser {
             return new Syntax.NodeNot("not", p);
         }
 
+
         //Syntax.Node left = ParseSetValue();
 
         throw new Exception("unknown token");
     }
 
-    Syntax.Node ParseNot() throws Exception{
+    Syntax.Node ParseNot() throws Exception {
         Syntax.Node left = ParseFactor();
         return left;
+    }
+    Syntax.Node ParseIfStatement() throws Exception {
+        Token t = lexer.next();
+        if(t.type==TokenType.IDENTIFIER)
+            lexer.putBack(t);
+        String op="if";
+        while (true) {
+            var left = ParseExpression();
+            t=lexer.next();
+            var right = ParseStatement();
+            if (t.token.equals("then")) {
+                 //left = ParseExpression();
+                 t=lexer.next();
+                //var right = ParseStatement();
+                if (t.token.equals("else")) {
+                    var right2 = ParseStatement();
+                    var elIf = new Syntax.ElIfNode(op, left,right, right2) ;
+                    return elIf;
+                }
+                return new Syntax.IfNode(op, left, right);
+                //return new Syntax.NodeBinaryOP(op, left, right);
+            }
+
+        }
+        //throw new Exception("error in IfStatement !!! ");
+
+    }
+    Syntax.Node ParseStatement() throws Exception {
+        Token t=lexer.next();
+        if(t.token.equals("if")){
+            var statement = ParseIfStatement();
+            return statement;
+        }
+        var assignment = ParseAssignment(t);
+       /* if(t.token.equals("while")){
+
+        }*/
+       return assignment;
+        //throw new Exception("can't find statement !!! ");
+    }
+
+    Syntax.Node ParseAssignment(Token t) throws Exception{
+       // Token t = lexer.next();
+        while (true){
+        if(t.type==TokenType.IDENTIFIER){
+            var left = new Syntax.NodeVar(String.valueOf(t.token));
+            t=lexer.next();
+            if(t.type==TokenType.ASSIGNMENT_OPERATOR){
+                var right = ParseExpression();
+                return new Syntax.AssignmentNode(":=", left, right);
+            }
+            else {
+                throw new Exception("Error in ParseAssignment!!! can't assign it ");
+            }
+        }
+        else
+            lexer.putBack(t);
+            break;
+        }
+        throw new Exception("Error in ParseAssignment!!! ");
+
     }
 
     Syntax.Node ParseSetValue() throws Exception{
         ArrayList<Syntax.Node> valueList = new ArrayList<>();
         Token t = lexer.next();
         if (t.token.equals("[")){
-            while (!t.token.equals("]")){
+            while (true){
                 t=lexer.next();
                 if(t.type==TokenType.EOF)
+                    break;
+                if(t.token.equals("]"))
                     break;
                 if (t.token.equals(",")){
                     t=lexer.next();
@@ -166,7 +231,6 @@ public class Parser {
                 valueList.add(element);
 
             }
-
             return new Syntax.NodeSetValue(valueList);
         }
         throw new Exception(" Missing close !!!]");
@@ -184,13 +248,24 @@ public class Parser {
                 return element3;
             }
             else
-               // lexer.putBack(t);
+                lexer.putBack(t);
                 break;
         }
     return element;
     }
     Syntax.Node ParseConstExpression(Token t) throws Exception{
         Syntax.Node constFactor = ParseConstFactor(t);
+        if(t.token.equals("nil")){
+            Syntax.Node left = new Syntax.NodeUnaryOP("nil",constFactor);
+            return left;
+        }
+        if(t.token.equals("'")){
+            Syntax.Node constFactor2 = ParseConstFactor(t);
+            if(!lexer.next().token.equals("'")){
+                throw new Exception("missing closing ' ");
+            }
+            return constFactor2;
+        }
        // Syntax.Node left = new Syntax.NodeUnaryOP("what?", constFactor);
         return constFactor; // SO WARNING!!!
     }

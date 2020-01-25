@@ -1,0 +1,4 @@
+line	column	token	type
+1	5	}	ERROR
+1	6	ccc	IDENTIFIER
+1	9	}	ERROR

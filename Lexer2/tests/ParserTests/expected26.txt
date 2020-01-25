@@ -1,0 +1,4 @@
+line	column	token	type
+2	3	9	INTEGER
+2	5	/	ARITHMETIC_OPERATOR
+2	6	dmk	IDENTIFIER

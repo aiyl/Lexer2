@@ -1,0 +1,3 @@
+line	column	token	type
+1	1	:	SEPARATE_OPERATOR
+1	2	:	SEPARATE_OPERATOR

@@ -1,0 +1,6 @@
+'sdfd''dgdfs'
+sdfd'dgdfs
+'sdfd'#13#10'aa'
+"sdfd\naa"
+sdfd
+aa

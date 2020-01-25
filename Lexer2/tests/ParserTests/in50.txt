@@ -1,0 +1,5 @@
+program Hello;
+var a:String;
+begin
+  writeln ('Hello, world.') //Hello world!
+end.

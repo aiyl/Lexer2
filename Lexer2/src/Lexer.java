@@ -104,7 +104,7 @@ public class Lexer {
     String str;
     int pos, linenum=1, tokenstart=0, linestart=0;
     int openComment=0, closeComment=0;
-    Token buf;
+    Token buf, token;
 
 
 

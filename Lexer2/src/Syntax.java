@@ -95,6 +95,66 @@ public  class Syntax {
         }
     }
 
+    public static class IfNode extends Node {
+        String name;
+        Node leftExpression;
+        Node rightStatement;
+        @Override
+        void print(int d){
+            super.print(d);
+            System.out.println(String.valueOf(name) );
+            leftExpression.print(d+1);
+            rightStatement.print(d+1);
+        }
+        public IfNode(String name, Node leftExpression, Node rightStatement){
+            this.name=name;
+            this.leftExpression=leftExpression;
+            this.rightStatement=rightStatement;
+
+        }
+    }
+
+    public static class ElIfNode extends Node {
+        String name;
+        Node leftExpression;
+        Node rightStatement;
+        Node elseStatement;
+        @Override
+        void print(int d){
+            super.print(d);
+            System.out.println(String.valueOf(name) );
+            leftExpression.print(d+1);
+            rightStatement.print(d+1);
+            elseStatement.print(d+1);
+        }
+        public ElIfNode(String name, Node leftExpression, Node rightStatement, Node elseStatement){
+            this.name=name;
+            this.leftExpression=leftExpression;
+            this.rightStatement=rightStatement;
+            this.elseStatement=elseStatement;
+
+        }
+    }
+
+    public static class AssignmentNode extends Node {
+        String name;
+        NodeVar ident;
+        Node expr;
+        @Override
+        void print(int d){
+            super.print(d);
+            System.out.println(String.valueOf(name));
+            ident.print(d+ 1);
+            expr.print(d+1);
+        }
+        public AssignmentNode(String name, NodeVar ident,  Node expr){
+            this.name=name;
+            this.ident=ident;
+            this.expr=expr;
+
+        }
+    }
+
 
     public static class ProgramModuleNode extends Node {
         String name;

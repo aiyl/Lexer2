@@ -1,0 +1,3 @@
+if a8 then 
+	if k then a:=2 
+	
