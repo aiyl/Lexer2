@@ -1,2 +1,7 @@
-//uhvis
-  9 /dmk
+repeat
+   begin
+     a:=a+2;
+     while a>1
+     do a:=3*0.6
+   end
+until a<8

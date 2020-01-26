@@ -389,6 +389,131 @@ public  class Syntax {
         }
     }
 
+    public static class NodeExpList extends Node {
+        ArrayList<Syntax.Node> expList;
+       // String op;
+        @Override
+        void print(int d) {
+            super.print(d);
+            System.out.println("expressions");
+            for (int i=0; i<expList.size(); i++){
+                expList.get(i).print(d+1);
+            }
+        }
+
+        public  NodeExpList( /*String op,*/ ArrayList<Syntax.Node> expList) {
+            this.expList = expList;
+            //this.op = op;
+        }
+    }
+
+    public static class NodeActualParameters extends Node {
+        Node expList;
+       // String op;
+        @Override
+        void print(int d) {
+            super.print(d);
+            System.out.println("params");
+            expList.print(d+1);
+        }
+        public  NodeActualParameters(/*String op, */ Node expList) {
+          //  this.op = op;
+            this.expList = expList;
+        }
+    }
+
+
+    public static class NodeProcedureCall extends Node {
+        String op;
+        Node ident, params;
+        @Override
+        void print(int d) {
+            super.print(d);
+            System.out.println(op);
+            ident.print(d+1);
+            params.print(d+1);
+        }
+        public  NodeProcedureCall(String op, Node ident, Node params) {
+            this.op=op;
+            this.ident = ident;
+            this.params = params;
+        }
+    }
+
+    public static class NodeInStatement extends Node {
+        String op;
+        Node designatorlist;
+        @Override
+        void print(int d) {
+            super.print(d);
+            System.out.println(op);
+            designatorlist.print(d+1);
+        }
+        public  NodeInStatement(String op, Node designatorlist) {
+            this.op=op;
+            this.designatorlist = designatorlist;
+        }
+    }
+
+    public static class NodeOutStatement extends Node {
+        String op;
+        Node expList;
+        @Override
+        void print(int d) {
+            super.print(d);
+            System.out.println(op);
+            expList.print(d+1);
+        }
+        public  NodeOutStatement(String op, Node expList) {
+            this.op=op;
+            this.expList = expList;
+        }
+    }
+
+    public static class NodeDesignatorList extends Node {
+        String op;
+        ArrayList<Syntax.Node> desList;
+        @Override
+        void print(int d) {
+            super.print(d);
+            System.out.println(op);
+            for(int i=0; i<desList.size(); i++){
+                desList.get(i).print(d+1);
+            }
+        }
+        public  NodeDesignatorList(String op, ArrayList<Syntax.Node> desList) {
+            this.op=op;
+            this.desList = desList;
+        }
+    }
+
+    public static class NodeDesignator extends Node {
+        Node arg1, arg2;
+        @Override
+        void print(int d) {
+            super.print(d);
+            System.out.println("designator");
+            arg1.print(d+1);
+            arg2.print(d+1);
+        }
+        public  NodeDesignator(Node arg1, Node arg2) {
+            this.arg1 = arg1;
+            this.arg2 = arg2;
+        }
+    }
+
+    public static class NodeDesignatorStuff extends Node {
+        Node arg;
+        @Override
+        void print(int d) {
+            super.print(d);
+            System.out.println("designator stuff");
+            arg.print(d+1);
+        }
+        public  NodeDesignatorStuff(Node arg) {
+            this.arg = arg;
+        }
+    }
 
     public static class NodeSetValue extends Node {
         ArrayList<Syntax.Node> list;

@@ -173,7 +173,7 @@ public class Parser {
     }
     Syntax.Node ParseIfStatement() throws Exception {
         Token t = lexer.next();
-        if(t.type==TokenType.IDENTIFIER)
+        if(t.type==TokenType.IDENTIFIER || (t.token.equals("(")))
             lexer.putBack(t);
         String op="if";
         while (true) {
@@ -198,19 +198,43 @@ public class Parser {
             return statement;
         }
         if(t.token.equals("for")) {
+            lexer.putBack(t);
             var statement = ParseForStatement();
             return statement;
         }
-        if(t.type==TokenType.IDENTIFIER) {
-            var statement = ParseAssignment(t);
+        if(t.token.equals("read") || t.token.equals("readln") || t.token.equals("write")|| t.token.equals("writeln")){
+            var statement = ParseIOStatement(t);
             return statement;
         }
+
+        if(t.type==TokenType.IDENTIFIER) {
+            var ident = new Syntax.NodeVar((String) t.token);
+            t = lexer.next();
+            if(t.token.equals("(")){
+                var statement = ParseProcedureCall(ident, t);
+                return statement;
+            }
+            //lexer.putBack(t);
+            if(t.token.equals(":=")){
+                var statement = ParseAssignment(t, ident);
+                return statement;
+            }
+        }
         if(t.token.equals("while")) {
+            lexer.putBack(t);
             var statement = ParseWhileStatement();
             return statement;
         }
+        if(t.token.equals("repeat")) {
+            lexer.putBack(t); // ?????
+            var statement = ParseRepeatStatement();
+            return statement;
+        }
+
         throw new Exception("can't find statement !!! ");
     }
+
+
 
     Syntax.Node ParseRepeatStatement() throws Exception{
         Token t = lexer.next();
@@ -233,7 +257,7 @@ public class Parser {
         ArrayList<Syntax.Node> statements = new ArrayList<>();
         Token t =lexer.next();
         while (!t.token.equals("end")){
-            if(t.type==TokenType.IDENTIFIER)
+            if(t.type==TokenType.IDENTIFIER || t.token.equals("while") || t.token.equals("if") || t.token.equals("for") || t.token.equals("repeat") )
                 lexer.putBack(t);
             //if (t.token.equals("begin")){
                 var statement = ParseStatement();
@@ -252,7 +276,52 @@ public class Parser {
         throw new Exception("error in ParseStatementSequence !!! ");
     }
 
-    Syntax.Node ParseForStatement() throws Exception{
+    Syntax.Node ParseProcedureCall(Syntax.NodeVar ident, Token t) throws Exception {
+        String op = "procedure";
+        //Token t =lexer.next();
+       // lexer.putBack(t);
+        if (t.token.equals("(")){
+            //var ident = new Syntax.NodeVar((String) t.token);
+            // lexer.next();
+            var actualParameters = ParseActualParameters(t);
+            return new Syntax.NodeProcedureCall(op, ident, actualParameters);
+        }
+     throw new Exception("Error in ParseProcedureCall !!! ");
+    }
+
+    Syntax.Node ParseActualParameters(Token t) throws Exception{
+        //Token t = lexer.next();
+       // String op = "expList";
+        if (t.token.equals("(")){
+            var expList =  ParseExpList();
+            t = lexer.next();
+            if (t.token.equals(")")){
+                return new Syntax.NodeActualParameters( expList);
+            }
+        }
+    throw new Exception("Error in ParseActualParameters !!! ");
+    }
+    Syntax.Node ParseExpList() throws Exception{
+        ArrayList exprs = new ArrayList();
+        String op ="expList";
+        while (true){
+            var exp = ParseExpression();
+            Token t = lexer.next();
+            if (t.token.equals(","))
+                t = lexer.next();
+            exprs.add(exp);
+            if (t.type == TokenType.IDENTIFIER)
+                lexer.putBack(t);
+            if (t.token.equals(")")){
+                lexer.putBack(t);
+                return new Syntax.NodeExpList( exprs);
+                //break;
+            }
+        }
+    //throw new Exception("Error in ParseExpList");
+    }
+
+    Syntax.Node ParseForStatement() throws Exception {
         Token t = lexer.next();
        /* if (t.token.equals("for"))
             lexer.putBack(t);*/
@@ -304,28 +373,99 @@ public class Parser {
         throw new Exception("error in ParseWhileStatement ");
     }
 
-    Syntax.Node ParseAssignment(Token t) throws Exception{
+    Syntax.Node ParseAssignment(Token t, Syntax.NodeVar left) throws Exception{
        // Token t = lexer.next();
         while (true){
-        if(t.type==TokenType.IDENTIFIER){
-            var left = new Syntax.NodeVar(String.valueOf(t.token));
-            t=lexer.next();
-            if(t.type==TokenType.ASSIGNMENT_OPERATOR){
-                var right = ParseExpression();
-                return new Syntax.AssignmentNode(":=", left, right);
-            }
-            else {
-                lexer.putBack(t);
-                break;
-                //throw new Exception("Error in ParseAssignment!!! can't assign it ");
-            }
+        if(t.type==TokenType.ASSIGNMENT_OPERATOR){
+            var right = ParseExpression();
+            return new Syntax.AssignmentNode(":=", left, right);
         }
-        else
+        else {
             lexer.putBack(t);
             break;
+            //throw new Exception("Error in ParseAssignment!!! can't assign it ");
+        }
         }
         throw new Exception("Error in ParseAssignment!!!  ");
 
+    }
+
+    Syntax.Node ParseIOStatement(Token t) throws Exception{
+        String op="";
+        if(t.token.equals("read") || t.token.equals("readln")){
+            if (t.token.equals("read"))
+                op="readln";
+            else
+                op = "writeln";
+            t = lexer.next();
+            if(t.token.equals("(")){
+                var designatorList = ParseDesignatorList();
+                t = lexer.next();
+                if(t.token.equals(")")){
+                    return new Syntax.NodeInStatement(op, designatorList);
+                }
+            }
+        }
+        if(t.token.equals("write") || t.token.equals("writeln")){
+            if (t.token.equals("write"))
+                op="write";
+            else
+                op = "writeln";
+            t = lexer.next();
+            if(t.token.equals("(")){
+                var expList = ParseExpList();
+                t = lexer.next();
+                if(t.token.equals(")")){
+                    return new Syntax.NodeOutStatement(op, expList);
+                }
+            }
+        }
+        throw new Exception("Error in ParseIOStatement !!! ");
+    }
+
+    Syntax.Node ParseDesignatorList() throws Exception{
+        Token t = lexer.next();
+        ArrayList designatorList = new ArrayList();
+        while (true) {
+            var designator = ParseDesignator(t);
+            //Token t = lexer.next();
+            if (t.token.equals(",")) {
+                t = lexer.next();
+            }
+            designatorList.add(designator);
+            if (t.token.equals(")")) {
+               // lexer.putBack(t);
+                return new Syntax.NodeDesignatorList("designatorList", designatorList);
+            }
+        }
+    }
+
+    Syntax.Node ParseDesignator(Token t) throws Exception{
+        if(t.type == TokenType.IDENTIFIER){
+            var ident = new Syntax.NodeVar((String) t.token);
+            var designatorStuff = ParseDesignatorStuff();
+            return new Syntax.NodeDesignator(ident, designatorStuff);
+        }
+    throw new Exception("Error in ParseDesignator !!! ");
+    }
+
+    Syntax.Node ParseDesignatorStuff() throws Exception{
+        Token t = lexer.next();
+        if (t.token.equals(".")){
+            t = lexer.next();
+            if (t.type == TokenType.IDENTIFIER){
+                var ident = new Syntax.NodeVar((String)t.token);
+                return new Syntax.NodeDesignatorStuff(ident);
+            }
+        }
+        if(t.token.equals("[")){
+            //t = lexer.next();
+            var expList = ParseExpList();
+            if (t.token.equals("]")){
+                return new Syntax.NodeDesignatorStuff(expList);
+            }
+        }
+        throw new Exception("Error in ParseDesignatorStuff !!!");
     }
 
     Syntax.Node ParseSetValue() throws Exception{
@@ -404,11 +544,5 @@ public class Parser {
         }
         throw new Exception("Error in ParseConstFactor !!! ");
     }
-    Syntax.Node ParseNodeCall(){
-        Token t=lexer.next();
-    return null;
-    }
-
-
 
 }
