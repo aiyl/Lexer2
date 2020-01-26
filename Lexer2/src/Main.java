@@ -107,9 +107,9 @@ public class Main {
         }
         }
 
-      /* if(testType){
+       if(testType){
            i=16;
-           while (i <= 28) {
+           while (i <= 30) {
                inPath=path+"in"+String.valueOf(i)+".txt";
                outPath=path+"out"+String.valueOf(i)+".txt";
                expectedPath=path+"expected"+String.valueOf(i)+".txt";
@@ -117,7 +117,7 @@ public class Main {
                runLexer(inPath,outPath, expectedPath, testType);
                i++;
            }
-       }*/
-        runLexer(path+"in29.txt" ,"D:\\\\tests\\\\ParserTests\\\\out27.txt", "D:\\\\tests\\\\ParserTests\\\\expected18.txt", testType);
+       }
+        //runLexer(path+"in30.txt" ,"D:\\\\tests\\\\ParserTests\\\\out27.txt", "D:\\\\tests\\\\ParserTests\\\\expected18.txt", testType);
     }
 }

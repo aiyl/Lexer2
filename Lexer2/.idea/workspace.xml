@@ -6,11 +6,8 @@
       <change beforePath="$PROJECT_DIR$/out/production/Lexer2/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Lexer2/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Parser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Syntax.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Syntax.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/ParserTests/in26.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ParserTests/in26.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/ParserTests/in27.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ParserTests/in27.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/ParserTests/in28.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ParserTests/in28.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/ParserTests/in29.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ParserTests/in29.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/ParserTests/in30.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ParserTests/in30.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

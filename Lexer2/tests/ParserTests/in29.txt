@@ -1,1 +1,1 @@
-write (a3)
+write (a3, b2)

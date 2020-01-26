@@ -394,9 +394,9 @@ public class Parser {
         String op="";
         if(t.token.equals("read") || t.token.equals("readln")){
             if (t.token.equals("read"))
-                op="readln";
+                op="read";
             else
-                op = "writeln";
+                op = "readln";
             t = lexer.next();
             if(t.token.equals("(")){
                 var designatorList = ParseDesignatorList();
@@ -428,13 +428,13 @@ public class Parser {
         ArrayList designatorList = new ArrayList();
         while (true) {
             var designator = ParseDesignator(t);
-            //Token t = lexer.next();
+            t = lexer.next();
             if (t.token.equals(",")) {
                 t = lexer.next();
             }
             designatorList.add(designator);
             if (t.token.equals(")")) {
-               // lexer.putBack(t);
+                lexer.putBack(t);
                 return new Syntax.NodeDesignatorList("designatorList", designatorList);
             }
         }
@@ -444,7 +444,10 @@ public class Parser {
         if(t.type == TokenType.IDENTIFIER){
             var ident = new Syntax.NodeVar((String) t.token);
             var designatorStuff = ParseDesignatorStuff();
-            return new Syntax.NodeDesignator(ident, designatorStuff);
+            if(designatorStuff!=null)
+                return new Syntax.NodeDesignator(ident, designatorStuff);
+            else
+                return ident;
         }
     throw new Exception("Error in ParseDesignator !!! ");
     }
@@ -458,6 +461,11 @@ public class Parser {
                 return new Syntax.NodeDesignatorStuff(ident);
             }
         }
+        if(t.token.equals(")") || t.token.equals(",")){
+            lexer.putBack(t);
+            return null;
+        }
+
         if(t.token.equals("[")){
             //t = lexer.next();
             var expList = ParseExpList();
