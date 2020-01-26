@@ -1,1 +1,1 @@
-1.9
+if a not 6  then k:=k+2

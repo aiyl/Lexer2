@@ -29,6 +29,7 @@ public  class Syntax {
         void print(int d){
             super.print(d);
             System.out.println(opname);
+            arg.print(d+1);
         }
         public NodeUnaryOP(String opname, Node arg){
             this.opname=opname;
@@ -318,7 +319,7 @@ public  class Syntax {
     }
 
     public static class NodeNil extends Node {
-        String value = "nil";
+        String value;
         @Override
         void print(int d){
             super.print(d);
@@ -329,13 +330,26 @@ public  class Syntax {
         }
     }
 
+    public static class Nodeboolean extends Node {
+        String value;
+        @Override
+        void print(int d){
+            super.print(d);
+            System.out.println(value);
+        }
+        public Nodeboolean(String value){
+            this.value=value;
+        }
+    }
+
     public static class NodeNot extends Node {
         String op;
-        Node left;
+        Node  left;
         @Override
         void print(int d){
             super.print(d);
             System.out.println(op);
+            left.print(d+1);
         }
         public NodeNot(String op,Node left){
             this.op=op;

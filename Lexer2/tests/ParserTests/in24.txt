@@ -1,2 +1,2 @@
-/*cfds
-dc*/
+if not (a>b) then
+    k:=k+3

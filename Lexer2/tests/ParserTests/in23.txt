@@ -1,2 +1,2 @@
-//sc
-	//scsc
+if (a+b) or (b+d) then
+    k:=k+3

@@ -1,1 +1,1 @@
-while nil+1 do a:=3
+while nil>1 do a:=3

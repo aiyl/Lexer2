@@ -1,3 +1,4 @@
+import java.beans.Expression;
 import java.util.ArrayList;
 
 public class Parser {
@@ -68,11 +69,24 @@ public class Parser {
     }
 
 */
+  /*  Syntax.Node ParseExpr() throws Exception {
+        Syntax.Node left = ParseExpression();
+        Token t = lexer.next();
+        if(t.token=="="||t.token=="<>"||t.token=="<"||t.token==">"||t.token=="<="||t.token==">="||t.token=="in" ){
+            var right = ParseExpression();
+            return new Syntax.NodeBinaryOP((String) t.token, left, right);
+        }
+    }*/
 
     Syntax.Node ParseExpression() throws Exception {
         Syntax.Node left = ParseTerm();
         while (true){
             Token t= lexer.next();
+            if(t.token.equals("=")||t.token.equals("<>")||t.token.equals("<")||t.token.equals(">")||t.token.equals("<=")||t.token.equals(">=")||t.token.equals("in") ){
+                var right = ParseExpression();
+                return new Syntax.NodeBinaryOP((String) t.token, left, right);
+            }
+
             if(t.token.equals("or")||t.token.equals("-")||t.token.equals("+")) {
                 Syntax.Node right = ParseTerm();
                 left=new Syntax.NodeBinaryOP(String.valueOf(t.token), left,right);
@@ -102,6 +116,8 @@ public class Parser {
         return left;
     }
 
+
+
     Syntax.Node ParseFactor() throws Exception{
         Token t= lexer.next();
         if(t.type==TokenType.INTEGER){
@@ -120,13 +136,16 @@ public class Parser {
         if(t.token.equals("nil")){
             return new Syntax.NodeNil("nil");
         }
+        if(t.type==TokenType.BOOLEAN){
+            return new Syntax.Nodeboolean((String) t.token);
+        }
 
 
         if(t.token.equals("-")){
             Token t2=lexer.next();
             lexer.putBack(t2);
             Syntax.Node factor =  ParseFactor();
-            return new Syntax.NodeUnaryOP("-"+t2.token, factor);
+            return new Syntax.NodeUnaryOP("-", factor);
         }
         if(t.token.equals("(")){
             Syntax.Node expression =  ParseExpression();
@@ -136,9 +155,10 @@ public class Parser {
             return expression;
         }
         if(t.token.equals("not")){
-            lexer.next();
-            Syntax.Node p = ParseNot();
-            return new Syntax.NodeNot("not", p);
+            Token t2=lexer.next();
+            lexer.putBack(t2);
+            Syntax.Node factor =  ParseFactor();
+            return new Syntax.NodeUnaryOP("not", factor);
         }
 
 
@@ -148,7 +168,7 @@ public class Parser {
     }
 
     Syntax.Node ParseNot() throws Exception {
-        Syntax.Node left = ParseFactor();
+        var left = ParseExpression();
         return left;
     }
     Syntax.Node ParseIfStatement() throws Exception {
@@ -173,16 +193,20 @@ public class Parser {
     }
     Syntax.Node ParseStatement() throws Exception {
         Token t=lexer.next();
-        if(t.token.equals("if")){
+        if(t.token.equals("if")) {
             var statement = ParseIfStatement();
             return statement;
         }
-        if(t.token.equals("for")){
+        if(t.token.equals("for")) {
             var statement = ParseForStatement();
             return statement;
         }
-        if(t.type==TokenType.IDENTIFIER){
+        if(t.type==TokenType.IDENTIFIER) {
             var statement = ParseAssignment(t);
+            return statement;
+        }
+        if(t.token.equals("while")) {
+            var statement = ParseWhileStatement();
             return statement;
         }
         throw new Exception("can't find statement !!! ");
@@ -334,6 +358,9 @@ public class Parser {
         if(t.token.equals("nil")){
             //lexer.next();
             return new Syntax.NodeNil("nil");
+        }
+        if (t.type==TokenType.BOOLEAN){
+            return new Syntax.Nodeboolean((String) t.token);
         }
         throw new Exception("Error in ParseConstFactor !!! ");
     }
