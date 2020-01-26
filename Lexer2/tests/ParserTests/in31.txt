@@ -1,1 +1,5 @@
-2e //kcms
+while a<7
+do
+ if not a>1 then
+    a:=b+-2
+ write(a)

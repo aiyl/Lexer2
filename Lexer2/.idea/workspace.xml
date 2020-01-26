@@ -6,8 +6,9 @@
       <change beforePath="$PROJECT_DIR$/out/production/Lexer2/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Lexer2/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Parser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/ParserTests/in29.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ParserTests/in29.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/ParserTests/in30.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ParserTests/in30.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Syntax.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Syntax.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/ParserTests/in31.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ParserTests/in31.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/ParserTests/in32.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ParserTests/in32.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -90,32 +91,32 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Syntax.java</url>
-          <line>548</line>
+          <line>565</line>
           <option name="timeStamp" value="52" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Parser.java</url>
-          <line>320</line>
+          <line>334</line>
           <option name="timeStamp" value="120" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Syntax.java</url>
-          <line>438</line>
+          <line>455</line>
           <option name="timeStamp" value="122" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Parser.java</url>
-          <line>194</line>
+          <line>208</line>
           <option name="timeStamp" value="123" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Parser.java</url>
-          <line>233</line>
+          <line>247</line>
           <option name="timeStamp" value="124" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/Parser.java</url>
-          <line>278</line>
+          <line>292</line>
           <properties class="Parser" method="ParseProcedureCall">
             <option name="EMULATED" value="true" />
           </properties>
@@ -123,7 +124,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-field">
           <url>file://$PROJECT_DIR$/src/Syntax.java</url>
-          <line>426</line>
+          <line>443</line>
           <properties field="op" class="Syntax.NodeProcedureCall" />
           <option name="timeStamp" value="121" />
         </line-breakpoint>

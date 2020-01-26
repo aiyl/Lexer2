@@ -109,7 +109,7 @@ public class Main {
 
        if(testType){
            i=16;
-           while (i <= 30) {
+           while (i <= 32) {
                inPath=path+"in"+String.valueOf(i)+".txt";
                outPath=path+"out"+String.valueOf(i)+".txt";
                expectedPath=path+"expected"+String.valueOf(i)+".txt";
@@ -118,6 +118,6 @@ public class Main {
                i++;
            }
        }
-        //runLexer(path+"in30.txt" ,"D:\\\\tests\\\\ParserTests\\\\out27.txt", "D:\\\\tests\\\\ParserTests\\\\expected18.txt", testType);
+        runLexer(path+"in32.txt" ,"D:\\\\tests\\\\ParserTests\\\\out27.txt", "D:\\\\tests\\\\ParserTests\\\\expected18.txt", testType);
     }
 }

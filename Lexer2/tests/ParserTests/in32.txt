@@ -1,1 +1,4 @@
-~!fd
+if k=true then
+    a:=a+0
+else
+    a:=8

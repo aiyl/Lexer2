@@ -57,6 +57,23 @@ public  class Syntax {
         }
     }
 
+    public static class NodeFunctionalCall extends Node {
+        String name;
+        Node ident , params;
+        @Override
+        void print(int d){
+            super.print(d);
+            System.out.println(name);
+            ident.print(d+1);
+            params.print(d+1);
+        }
+        public NodeFunctionalCall(String name, Node ident, Node params){
+            this.name=name;
+            this.ident = ident;
+            this.params = params;
+        }
+    }
+
     public static class IdentList extends Node {
         ArrayList<String> identList;
         @Override

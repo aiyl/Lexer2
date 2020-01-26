@@ -127,6 +127,11 @@ public class Parser {
             return new Syntax.NodeDouble((double)t.token);
         }
         if(t.type==TokenType.IDENTIFIER){
+            if(t.token.equals(")")){
+               // lexer.putBack(t);
+                var funcCall = ParseFunctionalCall(t);
+                return funcCall;
+            }
             return new Syntax.NodeVar((String)t.token);
         }
         if(t.type==TokenType._STRING){
@@ -157,7 +162,7 @@ public class Parser {
         if(t.token.equals("not")){
             Token t2=lexer.next();
             lexer.putBack(t2);
-            Syntax.Node factor =  ParseFactor();
+            Syntax.Node factor =  ParseExpression();
             return new Syntax.NodeNot("not", factor);
         }
 
@@ -167,13 +172,21 @@ public class Parser {
         throw new Exception("unknown token");
     }
 
+    Syntax.Node ParseFunctionalCall(Token t ) throws Exception{
+        if (t.type == TokenType.IDENTIFIER){
+            var ident = new  Syntax.NodeVar((String) t.token);
+            var actParams = ParseActualParameters(t);
+            return new Syntax.NodeFunctionalCall("functionalCall", ident, actParams);
+        }
+    throw new Exception("Error in ParseFunctionalCall !!! ");
+    }
     Syntax.Node ParseNot() throws Exception {
         var left = ParseExpression();
         return left;
     }
     Syntax.Node ParseIfStatement() throws Exception {
         Token t = lexer.next();
-        if(t.type==TokenType.IDENTIFIER || (t.token.equals("(")))
+        if(t.type==TokenType.IDENTIFIER || (t.token.equals("(")) || (t.token.equals("not")))
             lexer.putBack(t);
         String op="if";
         while (true) {
@@ -189,6 +202,7 @@ public class Parser {
                 }
                 return new Syntax.IfNode(op, left, right);
             }
+            throw new Exception("unexpected THEN !!!");
         }
     }
     Syntax.Node ParseStatement() throws Exception {
@@ -550,6 +564,7 @@ public class Parser {
         if (t.type==TokenType.BOOLEAN){
             return new Syntax.Nodeboolean((String) t.token);
         }
+
         throw new Exception("Error in ParseConstFactor !!! ");
     }
 
