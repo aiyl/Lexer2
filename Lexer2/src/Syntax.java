@@ -357,6 +357,38 @@ public  class Syntax {
         }
     }
 
+    public static class NodeStatements extends Node{
+        ArrayList<Syntax.Node> statements;
+        @Override
+        void print(int d){
+            super.print(d);
+            System.out.println("statements");
+            for (int i=0; i<statements.size(); i++){
+                statements.get(i).print(d+1);
+            }
+        }
+        public NodeStatements(ArrayList statements){
+            this.statements = statements;
+        }
+    }
+
+    public static class NodeRepeatStatement extends Node{
+        String op;
+        Node statementSequence, exp;
+        @Override
+        void print(int d){
+            super.print(d);
+            System.out.println(op);
+            statementSequence.print(d+1);
+            exp.print(d+1);
+        }
+        public NodeRepeatStatement(String op, Node statementSequence, Node exp){
+            this.op = op;
+            this.statementSequence = statementSequence;
+            this.exp = exp;
+        }
+    }
+
 
     public static class NodeSetValue extends Node {
         ArrayList<Syntax.Node> list;

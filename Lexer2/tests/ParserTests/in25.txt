@@ -1,2 +1,2 @@
-	
-	 3a//get
+
+    repeat begin a:=a+2; b:=b+3 end until a<8

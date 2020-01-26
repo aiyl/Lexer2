@@ -158,7 +158,7 @@ public class Parser {
             Token t2=lexer.next();
             lexer.putBack(t2);
             Syntax.Node factor =  ParseFactor();
-            return new Syntax.NodeUnaryOP("not", factor);
+            return new Syntax.NodeNot("not", factor);
         }
 
 
@@ -210,6 +210,46 @@ public class Parser {
             return statement;
         }
         throw new Exception("can't find statement !!! ");
+    }
+
+    Syntax.Node ParseRepeatStatement() throws Exception{
+        Token t = lexer.next();
+        String op="repeat";
+        while (true){
+           // t=lexer.next();
+            if (t.token.equals("repeat")){
+                var statementSequence = ParseStatementSequence();
+                t = lexer.next();
+                if(t.token.equals("until")){
+                    var exp = ParseExpression();
+                    return new Syntax.NodeRepeatStatement(op, statementSequence, exp);
+                }
+             throw new Exception("need repeat!!!");
+            }
+        }
+    }
+
+    Syntax.Node ParseStatementSequence() throws Exception{
+        ArrayList<Syntax.Node> statements = new ArrayList<>();
+        Token t =lexer.next();
+        while (!t.token.equals("end")){
+            if(t.type==TokenType.IDENTIFIER)
+                lexer.putBack(t);
+            //if (t.token.equals("begin")){
+                var statement = ParseStatement();
+                t = lexer.next();
+                if (t.token.equals(";")){
+                    t = lexer.next();}
+                    //statement = ParseStatement();
+                statements.add(statement);
+                if (t.token.equals("end")){
+                    return new Syntax.NodeStatements(statements);
+                    //break;
+                }
+            //}
+            //throw new Exception("need begin !!! ");
+        }
+        throw new Exception("error in ParseStatementSequence !!! ");
     }
 
     Syntax.Node ParseForStatement() throws Exception{

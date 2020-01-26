@@ -7,11 +7,7 @@
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Parser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Syntax.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Syntax.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/ParserTests/in18.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ParserTests/in18.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/ParserTests/in21.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ParserTests/in21.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/ParserTests/in22.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ParserTests/in22.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/ParserTests/in23.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ParserTests/in23.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/ParserTests/in24.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ParserTests/in24.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/ParserTests/in25.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ParserTests/in25.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -94,18 +90,18 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Syntax.java</url>
-          <line>391</line>
+          <line>423</line>
           <option name="timeStamp" value="52" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Parser.java</url>
-          <line>174</line>
-          <option name="timeStamp" value="109" />
+          <line>251</line>
+          <option name="timeStamp" value="114" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Parser.java</url>
-          <line>190</line>
-          <option name="timeStamp" value="110" />
+          <line>215</line>
+          <option name="timeStamp" value="115" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
