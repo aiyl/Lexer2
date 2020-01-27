@@ -1,1 +1,9 @@
-a5.
+var
+i,a,k: integer;
+begin
+for i:=1 to n do
+   begin
+      readln(a);
+      k:=k+1;
+   end;
+end.

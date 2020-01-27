@@ -75,13 +75,15 @@ public  class Syntax {
     }
 
     public static class IdentList extends Node {
-        ArrayList<String> identList;
+        ArrayList<Syntax.Node> identList;
         @Override
         void print(int d){
             super.print(d);
-            System.out.println(identList);
+            System.out.println("identList");
+            for (int i=0; i<identList.size(); i++)
+                identList.get(i).print(d+1);
         }
-        public IdentList(ArrayList<String> identList){
+        public IdentList(ArrayList<Syntax.Node> identList){
             this.identList=identList;
         }
     }
@@ -99,14 +101,18 @@ public  class Syntax {
     }
 
     public static class BlockNode extends Node {
-        ArrayList declarations;
+        ArrayList<Syntax.Node> declarations;
         Node StatementSequence;
         @Override
         void print(int d){
             super.print(d);
-            System.out.println(String.valueOf(declarations) );
+            System.out.println(String.valueOf("BlockNode") );
+            for (int i=0; i<declarations.size(); i++)
+                declarations.get(i).print(d+1);
+            StatementSequence.print(d+1);
         }
-        public BlockNode(ArrayList declarations,Node StatementSequence){
+
+        public BlockNode(ArrayList<Syntax.Node> declarations,Node StatementSequence){
             this.declarations=declarations;
             this.StatementSequence=StatementSequence;
 
@@ -264,11 +270,13 @@ public  class Syntax {
     }
 
     public static class DeclarationsNode extends Node {
-        ArrayList declarations;
+        ArrayList<Syntax.Node> declarations;
         @Override
         void print(int d){
             super.print(d);
-            System.out.println(String.valueOf(declarations) );
+            System.out.println(String.valueOf("var") );
+            for (int i =0 ; i<declarations.size(); i++)
+                declarations.get(i).print(d+1);
         }
         public DeclarationsNode(ArrayList declarations){
             this.declarations=declarations;
@@ -532,6 +540,39 @@ public  class Syntax {
         }
     }
 
+    public static class NodeConstDef extends Node {
+        Node ident, constExp;
+        @Override
+        void print(int d) {
+            super.print(d);
+            System.out.println("ConstDef");
+            ident.print(d+1);
+            constExp.print(d+1);
+        }
+        public   NodeConstDef(Node ident, Node constExp) {
+            this.ident = ident;
+            this.constExp = constExp;
+        }
+    }
+
+    public static class NodeConstDefBlock extends Node {
+        Node ident;
+        ArrayList<Syntax.Node> constList;
+        @Override
+        void print(int d) {
+            super.print(d);
+            System.out.println("ConstDefBlock");
+            ident.print(d+1);
+            for (int i=0; i<constList.size(); i++){
+                constList.get(i).print(d+1);
+            }
+        }
+        public   NodeConstDefBlock(Node ident, ArrayList<Syntax.Node> constList) {
+            this.ident = ident;
+            this.constList = constList;
+        }
+    }
+
     public static class NodeSetValue extends Node {
         ArrayList<Syntax.Node> list;
 
@@ -544,6 +585,128 @@ public  class Syntax {
         public NodeSetValue(ArrayList<Syntax.Node> list) {
             this.list = list;
 
+        }
+    }
+    public static class NodeType extends Node {
+        String type;
+        @Override
+        void print(int d) {
+            super.print(d);
+            System.out.println(type);
+        }
+
+        public NodeType(String type) {
+            this.type = type;
+        }
+    }
+
+    public static class NodeTypeDef extends Node {
+        Node ident, type;
+        @Override
+        void print(int d) {
+            super.print(d);
+            System.out.println("NodeTypeDef");
+            ident.print(d+1);
+            type.print(d+1);
+        }
+
+        public NodeTypeDef(Node ident, Node type) {
+            this.ident = ident;
+            this.type = type;
+        }
+    }
+
+    public static class NodeTypeDefBlock extends Node {
+        Node  type;
+        ArrayList<Syntax.Node> typedefList;
+        @Override
+        void print(int d) {
+            super.print(d);
+            System.out.println("NodeTypeDefBlock");
+            type.print(d+1);
+            for (int i=0; i<typedefList.size(); i++)
+                typedefList.get(i).print(d+1);
+        }
+
+        public NodeTypeDefBlock(Node type, ArrayList<Syntax.Node> typedefList) {
+            this.type = type;
+            this.typedefList = typedefList;
+        }
+    }
+
+    public static class NodeSubrange extends Node {
+        Node  constFactor1, constFactor2;
+        @Override
+        void print(int d) {
+            super.print(d);
+            System.out.println("Subrange");
+            constFactor1.print(d+1);
+            constFactor2.print(d+1);
+        }
+
+        public NodeSubrange(Node constFactor1, Node constFactor2) {
+            this.constFactor1 = constFactor1;
+            this.constFactor2 = constFactor2;
+        }
+    }
+    public static class NodeVariableDecl extends Node {
+        Node  identList, type;
+        @Override
+        void print(int d) {
+            super.print(d);
+            System.out.println(":");
+            type.print(d+1);
+            identList.print(d+1);
+        }
+
+        public NodeVariableDecl(Node identList, Node type) {
+            this.identList = identList;
+            this.type = type;
+        }
+    }
+
+    public static class NodeVariableDeclBlock extends Node {
+        ArrayList<Syntax.Node> list;
+        @Override
+        void print(int d) {
+            super.print(d);
+            System.out.println("block");
+            for (int i=0; i<list.size(); i++)
+                list.get(i).print(d+1);
+        }
+
+        public NodeVariableDeclBlock(ArrayList<Syntax.Node> list) {
+            this.list = list;
+        }
+    }
+
+    public static class NodeSubprogList extends Node {
+        Node  decl;
+        @Override
+        void print(int d) {
+            super.print(d);
+            System.out.println("SubprogList");
+            decl.print(d+1);
+        }
+
+        public NodeSubprogList(Node decl) {
+            this.decl = decl;
+        }
+    }
+
+    public static class NodeProcedureDecl extends Node {
+        Node  procHead, block;
+        @Override
+        void print(int d) {
+            super.print(d);
+            System.out.println("ProcedureDecl");
+            procHead.print(d+1);
+            block.print(d+1);
+        }
+
+        public NodeProcedureDecl(Node procHead, Node block) {
+            this.procHead = procHead;
+            this.block = block;
         }
     }
 

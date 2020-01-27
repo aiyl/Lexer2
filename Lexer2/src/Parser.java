@@ -8,16 +8,13 @@ public class Parser {
         this.lexer=lexer;
     }
 
-    Syntax.Node  ParseIndentList() throws Exception{
-       //ArrayList <Syntax.Node> identList = new ArrayList<>();
-        ArrayList <String> identList = new ArrayList<>();
-       // Syntax.Node variabledecl = new Syntax.NodeUnaryOP("var", );
-        Token t= lexer.next();
-        //Syntax.Node variable;
-        String variable;
-        while (!t.token.equals(";")) {
+    Syntax.Node  ParseIdentList(Token t) throws Exception{
+       ArrayList <Syntax.Node> identList = new ArrayList<>();
+       // Token t= lexer.next();
+        Syntax.NodeVar variable;
+        while (!t.token.equals(":") ) {
             if (t.type == TokenType.IDENTIFIER && (t.type != TokenType.KEYWORD)) {
-                variable = new Syntax.NodeVar((String) t.token).name;
+                variable = new Syntax.NodeVar((String) t.token);
                 identList.add(variable);
                 t=lexer.next();
             } else
@@ -30,45 +27,215 @@ public class Parser {
         return new Syntax.IdentList(identList);
     }
 
-    /*Syntax.Node ParseBlock() throws Exception{
+    Syntax.Node ParseBlock() throws Exception{
         ArrayList<Syntax.Node> declList = new ArrayList<>();
         Token t= lexer.next();
-        Syntax.Node decl=null; //Change it in future
+        Syntax.Node decl=ParseDeclarations(t);
+        t = lexer.next();
         if (t.token.equals("const") || t.token.equals("var") || t.token.equals("function") || t.token.equals("procedure") && t.type==TokenType.KEYWORD){
-            decl = ParseDeclarations();
+            decl = ParseDeclarations(t);
             declList.add(decl);
             while (t.token.equals("const") || t.token.equals("var") || t.token.equals("function") || t.token.equals("procedure") && t.type==TokenType.KEYWORD){
-                decl =  ParseDeclarations();
+                decl =  ParseDeclarations(t);
                 declList.add(decl);
             }
         }
         if (t.token.equals("begin")){
+            declList.add(decl);
             Syntax.Node states= ParseStatementSequence();
+            return new Syntax.BlockNode(declList, states);
         }
         return new Syntax.BlockNode(declList, decl);
     }
 
 
-    Syntax.Node ParseDeclarations() throws Exception{
-        Token t= lexer.next();
-        Syntax.Node constant;
-        ArrayList<Syntax.DeclarationsNode> declList = new ArrayList<>();
-        if((t.token.equals("const")){
-            constant = new ParseConstantDefBlock();
+    Syntax.Node ParseDeclarations(Token t) throws Exception{
+       // Token t= lexer.next();
+        var constant = new Syntax.Node();
+        ArrayList<Syntax.Node> declList = new ArrayList<>();
+        if(t.token.equals("const")){
+            constant = ParseConstantDefBlock();
             declList.add(constant);
         }
-        if((t.token.equals("var")){
-            constant = new ParseVariableDeclBlock();
+        if(t.token.equals("type")){
+            constant = ParseTypeDefBlock();
             declList.add(constant);
         }
-        if((t.token.equals("function") || t.token.equals("procedure")){
-            constant = new ParseSubprogDeclList();
+        if(t.token.equals("var")){
+            constant = ParseVariableDeclBlock();
+            declList.add(constant);
+        }
+        if(t.token.equals("function") || t.token.equals("procedure")){
+            constant = ParseSubprogDeclList(t);
             declList.add(constant);
         }
         return new Syntax.DeclarationsNode(declList);
     }
 
-*/
+    Syntax.Node ParseSubprogDeclList(Token t) throws Exception{
+        if (t.token.equals("procedure")){
+            var procedureDecl = ParseProcedureDecl();
+            t = lexer.next();
+            if (t.token.equals(";"))
+                return new Syntax.NodeSubprogList(procedureDecl);
+            else throw new Exception("Unexpected ; !!! ");
+        }
+        /*else {
+            if (t.token.equals("function")){
+                var functionDecl = ParseFunctionDecl();
+                t = lexer.next();
+                if (t.token.equals(";"))
+                    return new Syntax.NodeSubprogList(functionDecl);
+                else throw new Exception("Unexpected ; !!! ");
+            }
+        }*/
+    throw new Exception("error in ParseSubprogList");
+    }
+
+    Syntax.Node ParseProcedureDecl() throws Exception{
+        var procHead = ParseProcedureHeading();
+        Token t = lexer.next();
+        if(t.token.equals(";")){
+            var block = ParseBlock();
+            return  new Syntax.NodeProcedureDecl(procHead, block);
+        } else
+            throw new Exception(" Unexpected ; !!! ");
+        //throw new Exception("error in ParseProcedure Decl");
+    }
+
+    Syntax.Node ParseProcedureHeading(){
+        return new Syntax.NodeVar("Continue !!!!!! ");
+    }
+
+    Syntax.Node ParseVariableDeclBlock() throws Exception{
+        Token t = lexer.next();
+        ArrayList<Syntax.Node> variableDeclList = new ArrayList<>();
+        while (t.type != TokenType.KEYWORD){
+            if (t.token.equals(";"))
+                t = lexer.next();
+            if (t.type == TokenType.IDENTIFIER){
+                var variableDecl = ParseVariableDecl(t);
+                t = lexer.next();
+                variableDeclList.add(variableDecl);
+            } else {
+                break;
+            }
+        }
+        lexer.putBack(t);
+        return new Syntax.NodeVariableDeclBlock(variableDeclList);
+    }
+
+    Syntax.Node ParseVariableDecl(Token t) throws Exception{
+        var identList = ParseIdentList( t);
+        //t = lexer.next();
+        //if (t.token.equals(":")){
+            var type = ParseType();
+            return new Syntax.NodeVariableDecl(identList, type);
+        //}
+        //throw new Exception("error in ParseVariableDecl !!! ");
+    }
+
+    Syntax.Node ParseTypeDefBlock() throws Exception{
+        ArrayList <Syntax.Node> typeDefList = new ArrayList<>();
+        var type = ParseType();
+        Token t = lexer.next();
+        while (true) {
+            if (t.token.equals(";")) {
+                var typeDef = ParseTypeDef();
+                typeDefList.add(typeDef);
+            }
+            else
+                return new Syntax.NodeTypeDefBlock(type, typeDefList);
+        }
+
+    }
+
+    Syntax.Node ParseTypeDef() throws Exception{
+        Token t = lexer.next();
+        if (t.type==TokenType.IDENTIFIER){
+            var ident = new Syntax.NodeVar((String) t.token);
+            t = lexer.next();
+            if(t.token.equals("=")){
+                var type = ParseType();
+                return new Syntax.NodeTypeDef(ident, type);
+            }
+        }
+    throw new Exception("error in ParseTypeDef !!!");
+    }
+
+    Syntax.Node ParseType() throws Exception{
+        Token t = lexer.next();
+        //String type="";
+        if (t.token.equals("ident"))
+            return new Syntax.NodeType((String) t.token);
+        if (t.token.equals("integer"))
+            return new Syntax.NodeType((String) t.token);
+        if (t.token.equals("String"))
+            return new Syntax.NodeType((String) t.token);
+        if (t.token.equals("array")){
+            return ParseArray();
+        }
+    throw new Exception("error in ParseType !!! ");
+    }
+
+    Syntax.Node ParseArray() throws Exception{
+        ArrayList<Syntax.Node> subrangeList = new ArrayList<>();
+        Token t = lexer.next();
+        if (t.token.equals("[")){
+            t = lexer.next();
+            while (!t.token.equals("]")){
+                if (t.token.equals(","))
+                    t = lexer.next();
+                else {
+                    var subrange = ParseSubrange(t);
+                    subrangeList.add(subrange);
+                }
+                if (t.token.equals("]"))
+                    break;
+            }
+        }
+        throw new Exception("error in ParseArray");
+    }
+
+    Syntax.Node ParseSubrange(Token t) throws Exception{
+        var constFactor = ParseConstFactor(t);
+        t = lexer.next();
+        if (t.token.equals("..")){
+            t = lexer.next();
+            var constFactor2 = ParseConstFactor(t);
+            return new Syntax.NodeSubrange(constFactor, constFactor2);
+        }
+        throw new Exception("error in ParseSubrange !!! ");
+    }
+
+     Syntax.Node ParseConstantDefBlock() throws Exception {
+        ArrayList constList  = new ArrayList();
+        Syntax.Node ident = new Syntax.Node();
+        Syntax.Node constDef = new  Syntax.Node();
+        Token t = lexer.next();
+        if (t.type == TokenType.IDENTIFIER){
+             ident = new Syntax.NodeVar((String)t.token);
+        }
+        while (t.token.equals(";")){
+            t = lexer.next();
+             constDef = ParseConstDef(t);
+             constList.add(constDef);
+        }
+        return new Syntax.NodeConstDefBlock(ident, constList);
+     }
+     Syntax.Node ParseConstDef(Token t) throws Exception{
+        if (t.type == TokenType.IDENTIFIER){}
+            var ident = new Syntax.NodeVar((String) t.token);
+            t = lexer.next();
+            if (t.token.equals("=")){
+                t = lexer.next();
+                var constExp = ParseConstExpression(t);
+                return new Syntax.NodeConstDef(ident, constExp);
+            }
+        throw new Exception("error in ParseConstDef");
+     }
+
+
   /*  Syntax.Node ParseExpr() throws Exception {
         Syntax.Node left = ParseExpression();
         Token t = lexer.next();
@@ -127,8 +294,8 @@ public class Parser {
             return new Syntax.NodeDouble((double)t.token);
         }
         if(t.type==TokenType.IDENTIFIER){
-            if(t.token.equals(")")){
-               // lexer.putBack(t);
+            if(t.token.equals("(")){
+                lexer.putBack(t);
                 var funcCall = ParseFunctionalCall(t);
                 return funcCall;
             }
@@ -211,6 +378,10 @@ public class Parser {
             var statement = ParseIfStatement();
             return statement;
         }
+        if(t.token.equals("begin")) {
+            var statement = ParseStatementSequence();
+            return statement;
+        }
         if(t.token.equals("for")) {
             lexer.putBack(t);
             var statement = ParseForStatement();
@@ -271,7 +442,9 @@ public class Parser {
         ArrayList<Syntax.Node> statements = new ArrayList<>();
         Token t =lexer.next();
         while (!t.token.equals("end")){
-            if(t.type==TokenType.IDENTIFIER || t.token.equals("while") || t.token.equals("if") || t.token.equals("for") || t.token.equals("repeat") )
+            if(t.type==TokenType.IDENTIFIER || t.token.equals("while") ||
+                    t.token.equals("if") || t.token.equals("for") || t.token.equals("repeat")
+                    || t.token.equals("read") ||t.token.equals("readln") || t.token.equals("write") ||t.token.equals("writeln") )
                 lexer.putBack(t);
             //if (t.token.equals("begin")){
                 var statement = ParseStatement();

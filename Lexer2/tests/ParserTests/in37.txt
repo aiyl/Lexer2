@@ -1,1 +1,5 @@
-eeee
+var
+i,a,k: integer;
+begin
+  readln(a, b ,c );
+end.

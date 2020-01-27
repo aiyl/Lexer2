@@ -1,1 +1,6 @@
-2e+
+var
+i,a,k: integer;
+begin
+    readln(a,b,c)
+  procedure krrr(a, b ,c );
+end.

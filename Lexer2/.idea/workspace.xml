@@ -4,11 +4,23 @@
     <list default="true" id="ef39a83c-8147-445a-a285-a6d5f30b41a5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Lexer2/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Lexer2/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Lexer2/Syntax.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Lexer2/Syntax.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Parser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Syntax.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Syntax.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/ParserTests/in31.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ParserTests/in31.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/ParserTests/in32.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ParserTests/in32.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/LexerTests/expected12.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/LexerTests/expected12.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/LexerTests/expected50.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/LexerTests/expected50.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/LexerTests/in12.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/LexerTests/in12.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/LexerTests/in50.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/LexerTests/in50.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/LexerTests/out12.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/LexerTests/out12.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/LexerTests/out50.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/LexerTests/out50.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/ParserTests/in33.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ParserTests/in33.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/ParserTests/in34.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ParserTests/in34.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/ParserTests/in35.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ParserTests/in35.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/ParserTests/in36.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ParserTests/in36.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/ParserTests/in37.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ParserTests/in37.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/ParserTests/in38.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ParserTests/in38.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/ParserTests/in39.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ParserTests/in39.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -91,40 +103,32 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Syntax.java</url>
-          <line>565</line>
+          <line>728</line>
           <option name="timeStamp" value="52" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Parser.java</url>
-          <line>334</line>
-          <option name="timeStamp" value="120" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Syntax.java</url>
-          <line>455</line>
+          <line>463</line>
           <option name="timeStamp" value="122" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Parser.java</url>
-          <line>208</line>
-          <option name="timeStamp" value="123" />
+          <line>48</line>
+          <option name="timeStamp" value="125" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Parser.java</url>
-          <line>247</line>
-          <option name="timeStamp" value="124" />
+          <line>30</line>
+          <option name="timeStamp" value="126" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/Parser.java</url>
-          <line>292</line>
-          <properties class="Parser" method="ParseProcedureCall">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="119" />
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Lexer.java</url>
+          <line>256</line>
+          <option name="timeStamp" value="127" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-field">
           <url>file://$PROJECT_DIR$/src/Syntax.java</url>
-          <line>443</line>
+          <line>451</line>
           <properties field="op" class="Syntax.NodeProcedureCall" />
           <option name="timeStamp" value="121" />
         </line-breakpoint>
